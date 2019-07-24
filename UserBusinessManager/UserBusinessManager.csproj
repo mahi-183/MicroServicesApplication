@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\UserModel\UserModel.csproj" />
+    <ProjectReference Include="..\UserRepositoryManager\UserRepositoryManager.csproj" />
+  </ItemGroup>
+
+</Project>
