@@ -10,7 +10,7 @@ namespace UserRepositoryManager
     using System;
     using System.Collections.Generic;
     using System.Text;
-
+    using System.Threading.Tasks;
     using UserModel;
 
     /// <summary>
@@ -18,8 +18,8 @@ namespace UserRepositoryManager
     /// </summary>
     public interface IUserRepositoryManager
     {
-        string Login(int id);
+        Task<ApplicationUser> Login(LoginModel loginModel);
 
-        string Registration(RegistrationModel registrationModel);
+        Task<ApplicationUser> Registration(RegistrationModel registrationModel);
     }
 }

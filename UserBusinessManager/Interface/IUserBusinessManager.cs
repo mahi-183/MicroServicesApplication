@@ -9,6 +9,7 @@ namespace UserBusinessManager.Interface
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using UserModel;
 
     /// <summary>
@@ -17,8 +18,8 @@ namespace UserBusinessManager.Interface
     public interface IUserBusinessManager
     {
 
-        string Registration(RegistrationModel registrationModel);
+        Task<ApplicationUser> Registration(RegistrationModel registrationModel);
 
-        string Login(int id);
+        Task<ApplicationUser> Login(LoginModel loginModel);
     }
 }

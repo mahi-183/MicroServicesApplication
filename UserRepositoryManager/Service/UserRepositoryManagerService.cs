@@ -10,6 +10,7 @@ namespace UserRepositoryManager
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading.Tasks;
     using UserModel;
 
     /// <summary>
@@ -17,14 +18,23 @@ namespace UserRepositoryManager
     /// </summary>
     class UserRepositoryManagerService : IUserRepositoryManager
     {
-        public string Login(int id)
+        public Task<ApplicationUser> Login(LoginModel loginModel)
         {
             throw new NotImplementedException();
         }
 
-        public string Registration(RegistrationModel registrationModel)
+        public Task<bool> Registration(RegistrationModel registrationModel)
         {
-            throw new NotImplementedException();
+            Task<ApplicationUser> result;
+            try
+            {
+                return result;
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }
+ 

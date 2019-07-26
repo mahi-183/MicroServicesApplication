@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserMicroservice1", "UserMicroservice1\UserMicroservice1.csproj", "{D76A92BB-4CC2-44BB-89A7-6B7AB745743D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserMicroservice", "UserMicroservice1\UserMicroservice.csproj", "{D76A92BB-4CC2-44BB-89A7-6B7AB745743D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserBusinessManager", "UserBusinessManager\UserBusinessManager.csproj", "{C41FA064-15C3-4654-9128-A3AC9A167D41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserBusinessManager", "UserBusinessManager\UserBusinessManager.csproj", "{C41FA064-15C3-4654-9128-A3AC9A167D41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserRepositoryManager", "UserRepositoryManager\UserRepositoryManager.csproj", "{6B645890-9009-4398-9877-EBF390F1097C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserRepositoryManager", "UserRepositoryManager\UserRepositoryManager.csproj", "{6B645890-9009-4398-9877-EBF390F1097C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UserModel", "UserModel\UserModel.csproj", "{B45C92D8-1A77-44B1-BC65-D4ADD1A50288}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserModel", "UserModel\UserModel.csproj", "{B45C92D8-1A77-44B1-BC65-D4ADD1A50288}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

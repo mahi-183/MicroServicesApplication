@@ -1,13 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using UserBusinessManager.Interface;
-using UserModel;
-using UserRepositoryManager;
-
+﻿// --------------------------------------------------------------------------------------------------------------------
+// <copyright file="UserBusinessManagerService.cs" company="Bridgelabz">
+//   Copyright © 2019 Company="BridgeLabz"
+// </copyright>
+// <creator name="Mahesh Aurad"/>
+// --------------------------------------------------------------------------------------------------------------------
 namespace UserBusinessManager.Service
 {
-    class UserBusinessManagerService : IUserBusinessManager
+    using System;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Threading.Tasks;
+    using UserBusinessManager.Interface;
+    using UserModel;
+    using UserRepositoryManager;
+
+    /// <summary>
+    /// UserBusinessManagerService class implements the IUserBusinessManager interface
+    /// </summary>
+    /// <seealso cref="UserBusinessManager.Interface.IUserBusinessManager" />
+    public class UserBusinessManagerService : IUserBusinessManager
     {
         IUserRepositoryManager userRepositoryManager;
 
@@ -16,14 +27,29 @@ namespace UserBusinessManager.Service
             this.userRepositoryManager = userRepositoryManager;
         }
 
-        public string Login(int id)
+        //user login from username and password   
+        public Task<ApplicationUser> Login(LoginModel loginModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return this.userRepositoryManager.Login(loginModel);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
 
-        public string Registration(RegistrationModel registrationModel)
+        public Task<ApplicationUser> Registration(RegistrationModel registrationModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                return this.userRepositoryManager.Registration(registrationModel);
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
         }
     }
 }

@@ -10,19 +10,19 @@ namespace UserModel
     using System;
     using System.Collections.Generic;
     using System.Text;
-    using System.ComponentModel.DataAnnotation;
-    
+    using System.ComponentModel.DataAnnotations;
+    using System.Net.Http;
+    using Microsoft.AspNetCore.Http;
+
     /// <summary>
     /// RegistrationModel class is for set all user data
     /// </summary>
     public class RegistrationModel
     {
-        public int UserId
-        {
-            get;
-            set;
-        }
-
+        [Required(ErrorMessage = "{0} is mandatory field")]
+        [StringLength(15, MinimumLength = 3,
+        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 15 characters")]
+        [DataType(DataType.Text)]
         public string UserName
         {
             get;
