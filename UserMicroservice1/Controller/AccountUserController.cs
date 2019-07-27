@@ -23,9 +23,8 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("Register")]
-        //POST : /api/ApplicationUser/Register
-        public Task<ApplicationUser> Registration(RegistrationModel registartionModel)
-        {
+        public Task<bool> Registration(RegistrationModel registartionModel)
+         {
             return this.businessManager.Registration(registartionModel);
         }
     }

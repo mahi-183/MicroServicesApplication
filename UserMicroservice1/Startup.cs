@@ -11,7 +11,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using UserBusinessManager.Interface;
+using UserBusinessManager.Service;
 using UserModel;
+using UserRepositoryManager;
 using UserRepositoryManager.Context;
 
 namespace UserMicroservice
@@ -36,6 +39,10 @@ namespace UserMicroservice
 
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
+
+            
+            services.AddTransient<IUserBusinessManager, UserBusinessManagerService>();
+            services.AddTransient<IUserRepositoryManager, UserRepositoryManagerService>();
 
             /*  services.AddDefaultIdentity<UserModel>()
                   .AddEntityFrameworkStores<AuthenticationContext>(); */

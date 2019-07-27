@@ -10,8 +10,8 @@ using UserRepositoryManager.Context;
 namespace UserRepositoryManager.Migrations
 {
     [DbContext(typeof(AuthenticationContext))]
-    [Migration("20190726093540_fundo")]
-    partial class fundo
+    [Migration("20190727074001_myfundoo")]
+    partial class myfundoo
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

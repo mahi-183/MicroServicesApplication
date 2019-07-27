@@ -13,16 +13,15 @@ namespace UserModel
     using System.ComponentModel.DataAnnotations;
     using System.Net.Http;
     using Microsoft.AspNetCore.Http;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// RegistrationModel class is for set all user data
     /// </summary>
     public class RegistrationModel
     {
-        [Required(ErrorMessage = "{0} is mandatory field")]
-        [StringLength(15, MinimumLength = 3,
-        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 15 characters")]
-        [DataType(DataType.Text)]
+        [EmailAddress]
+        [Required]
         public string UserName
         {
             get;
@@ -39,6 +38,11 @@ namespace UserModel
             set;
         }
 
+        public Task CreateAsync(ApplicationUser applicationUser, string password)
+        {
+            throw new NotImplementedException();
+        }
+
         //LastName is public property for set and get with proper validation
         [Required(ErrorMessage = "{0} is mandatory field")]
         [StringLength(15, MinimumLength = 3,
@@ -50,27 +54,12 @@ namespace UserModel
             set;
         }
 
-        //City is public property for set and get with proper validation
-        [Required(ErrorMessage = "{0} is mandatory field")]
-        public string City
-        {
-            get;
-            set;
-        }
 
         //EmailId is public property for set and get with proper validation
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
+        [Required]
         public string EmailId
-        {
-            get;
-            set;
-        }
-
-        //PhoneNumber is public property for set and get with proper validation
-        [DataType(DataType.PhoneNumber)]
-        [Phone]
-        public int PhoneNumber
         {
             get;
             set;
@@ -85,14 +74,6 @@ namespace UserModel
             set;
         }
 
-        //ConfirmPassword is public property for set and get with proper validation
-        [DataType(DataType.Password)]
-        [Display(Name = "Confirm Password")]
-        [Compare("UserModel.Password", ErrorMessage = "The Password and ConfirmPassword shold be equal")]
-        public string ConfirmPassword
-        {
-            get;
-            set;
-        }
+       
     }
 }

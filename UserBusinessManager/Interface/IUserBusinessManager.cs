@@ -18,8 +18,8 @@ namespace UserBusinessManager.Interface
     public interface IUserBusinessManager
     {
 
-        Task<ApplicationUser> Registration(RegistrationModel registrationModel);
+        Task<bool> Registration(RegistrationModel registrationModel);
 
-        Task<ApplicationUser> Login(LoginModel loginModel);
+        Task<bool> Login(LoginModel loginModel);
     }
 }

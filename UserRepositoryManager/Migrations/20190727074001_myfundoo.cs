@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UserRepositoryManager.Migrations
 {
-    public partial class fundo : Migration
+    public partial class myfundoo : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

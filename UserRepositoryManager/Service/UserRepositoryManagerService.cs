@@ -7,6 +7,7 @@
 
 namespace UserRepositoryManager
 {
+    using Microsoft.AspNetCore.Identity;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -16,21 +17,40 @@ namespace UserRepositoryManager
     /// <summary>
     /// UserRepositoryService class implents the interface IUserRepository
     /// </summary>
-    class UserRepositoryManagerService : IUserRepositoryManager
+    public class UserRepositoryManagerService : IUserRepositoryManager
     {
-        public Task<ApplicationUser> Login(LoginModel loginModel)
+        private UserManager<ApplicationUser> _userManager;
+        private SignInManager<ApplicationUser> _signInManager;
+
+        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+        }
+
+        public Task<bool> Login(LoginModel loginModel)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> Registration(RegistrationModel registrationModel)
+        public async Task<bool> RegistrationAsync(RegistrationModel registrationModel)
         {
-            Task<ApplicationUser> result;
+            var applicationUser = new ApplicationUser()
+            {
+                UserName = registrationModel.UserName,
+                Email = registrationModel.EmailId,
+                FirstName = registrationModel.FirstName,
+                LastName = registrationModel.LastName,
+                
+            };
             try
             {
-                return result;
+                var result = await _userManager.CreateAsync(applicationUser, registrationModel.Password);
+                return result.Succeeded;
             }
-            catch(Exception ex)
+
+
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }

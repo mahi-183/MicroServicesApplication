@@ -28,7 +28,7 @@ namespace UserBusinessManager.Service
         }
 
         //user login from username and password   
-        public Task<ApplicationUser> Login(LoginModel loginModel)
+        public Task<bool> Login(LoginModel loginModel)
         {
             try
             {
@@ -40,11 +40,11 @@ namespace UserBusinessManager.Service
             }
         }
 
-        public Task<ApplicationUser> Registration(RegistrationModel registrationModel)
+        public Task<bool> Registration(RegistrationModel registrationModel)
         {
             try
             {
-                return this.userRepositoryManager.Registration(registrationModel);
+                return this.userRepositoryManager.RegistrationAsync(registrationModel);
             }
             catch(Exception ex)
             {
