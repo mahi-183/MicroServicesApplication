@@ -28,9 +28,14 @@ namespace UserRepositoryManager
             _signInManager = signInManager;
         }
 
-        public Task<bool> Login(LoginModel loginModel)
+        public async Task<string> Login(LoginModel loginModel)
         {
-            throw new NotImplementedException();
+            var user = await _userManager.FindByNameAsync(loginModel.UserName);
+            if ((user != null) && (await _userManager.FindByNameAsync(loginModel.UserName)))
+            {
+
+            }
+            return user.ToString();
         }
 
         public async Task<bool> RegistrationAsync(RegistrationModel registrationModel)

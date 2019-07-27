@@ -17,10 +17,8 @@ namespace UserModel
     /// </summary>
     public class LoginModel
     {
-        [Required(ErrorMessage = "{0} is mandatory field")]
-        [StringLength(15, MinimumLength = 3,
-        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 15 characters")]
-        [DataType(DataType.Text)]
+        [EmailAddress]
+        [Required]
         public string UserName
         {
             get;

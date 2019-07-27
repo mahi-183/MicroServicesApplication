@@ -44,32 +44,32 @@ namespace UserMicroservice
             services.AddTransient<IUserBusinessManager, UserBusinessManagerService>();
             services.AddTransient<IUserRepositoryManager, UserRepositoryManagerService>();
 
-            /*  services.AddDefaultIdentity<UserModel>()
-                  .AddEntityFrameworkStores<AuthenticationContext>(); */
 
             ////Jwt Authentication
 
-            //var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings: JWT_Secret"].ToString());
-
-            //services.AddAuthentication(x =>
-            //{
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(x =>                    //AddJwtBearer is for allow the onlly HTTPs request from client requet
-            //{
-            //    x.RequireHttpsMetadata = false;
-            //    x.SaveToken = false;
-
-            //    x.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
-            //    {
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSignKey = new SymmetricSecurityKey(key),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false,
-            //        ClockSkew = TimeSpan.Zero,
-            //    };
-            //});
+            var key = Encoding.UTF8.GetBytes(Configuration["ConnectionString:jwt_secret"].ToString());
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x=>
+            {
+                //addjwtbearer is for allow the only https request from client requet
+                x.RequireHttpsMetadata = false;
+                //after successful authentication if we dont need to save token on server 
+                x.SaveToken = true;
+                //validate token after successful authentication
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    // The system can validate the security key during the token validation
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

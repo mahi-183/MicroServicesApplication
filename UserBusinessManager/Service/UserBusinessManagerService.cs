@@ -28,11 +28,11 @@ namespace UserBusinessManager.Service
         }
 
         //user login from username and password   
-        public Task<bool> Login(LoginModel loginModel)
+        public async Task<string> Login(LoginModel loginModel)
         {
             try
             {
-                return this.userRepositoryManager.Login(loginModel);
+                return await this.userRepositoryManager.LoginAsync(loginModel);
             }
             catch (Exception ex)
             {

@@ -27,5 +27,12 @@ namespace UserMicroservice.Controller
          {
             return this.businessManager.Registration(registartionModel);
         }
+
+        [HttpPost]
+        [Route("Register")]
+        public Task<string> Login(LoginModel loginModel)
+        {
+            return this.businessManager.Login(loginModel);
+        }
     }
 }

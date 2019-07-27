@@ -20,6 +20,6 @@ namespace UserBusinessManager.Interface
 
         Task<bool> Registration(RegistrationModel registrationModel);
 
-        Task<bool> Login(LoginModel loginModel);
+        Task<string> Login(LoginModel loginModel);
     }
 }
