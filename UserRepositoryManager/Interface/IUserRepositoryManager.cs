@@ -18,8 +18,8 @@ namespace UserRepositoryManager
     /// </summary>
     public interface IUserRepositoryManager
     {
-        Task<string> LoginAsync(LoginModel loginModel);
+        Task<string> Login(LoginModel loginModel);
 
-        Task<bool> RegistrationAsync(RegistrationModel registrationModel);
+        Task<bool> Registration(RegistrationModel registrationModel);
     }
 }

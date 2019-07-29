@@ -31,14 +31,14 @@ namespace UserRepositoryManager
         public async Task<string> Login(LoginModel loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
-            if ((user != null) && (await _userManager.FindByNameAsync(loginModel.UserName)))
-            {
+            //if ((user != null) && (await _userManager.FindByNameAsync(loginModel.UserName)))
+            //{
 
-            }
+            //}
             return user.ToString();
         }
 
-        public async Task<bool> RegistrationAsync(RegistrationModel registrationModel)
+        public async Task<bool> Registration(RegistrationModel registrationModel)
         {
             var applicationUser = new ApplicationUser()
             {

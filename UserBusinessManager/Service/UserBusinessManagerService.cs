@@ -32,7 +32,7 @@ namespace UserBusinessManager.Service
         {
             try
             {
-                return await this.userRepositoryManager.LoginAsync(loginModel);
+                return await this.userRepositoryManager.Login(loginModel);
             }
             catch (Exception ex)
             {
@@ -44,7 +44,7 @@ namespace UserBusinessManager.Service
         {
             try
             {
-                return this.userRepositoryManager.RegistrationAsync(registrationModel);
+                return this.userRepositoryManager.Registration(registrationModel);
             }
             catch(Exception ex)
             {

@@ -29,7 +29,7 @@ namespace UserMicroservice.Controller
         }
 
         [HttpPost]
-        [Route("Register")]
+        [Route("Login")]
         public Task<string> Login(LoginModel loginModel)
         {
             return this.businessManager.Login(loginModel);
