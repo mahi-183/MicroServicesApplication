@@ -20,7 +20,9 @@ namespace UserModel
     /// </summary>
     public class RegistrationModel
     {
-        [EmailAddress]
+        [DataType(DataType.Text)]
+        [StringLength(15,MinimumLength =3,
+            ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
         [Required]
         public string UserName
         {
@@ -29,32 +31,26 @@ namespace UserModel
         }
         //FirstName is public property for set and get with proper validation
         [Required(ErrorMessage = "{0} is mandatory field")]
-        [StringLength(15, MinimumLength = 3,
-        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 100 characters")]
+        [StringLength(20, MinimumLength = 3,
+        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 20 characters")]
         [DataType(DataType.Text)]
         public string FirstName
         {
             get;
             set;
         }
-
-        public Task CreateAsync(ApplicationUser applicationUser, string password)
-        {
-            throw new NotImplementedException();
-        }
-
+        
         //LastName is public property for set and get with proper validation
         [Required(ErrorMessage = "{0} is mandatory field")]
-        [StringLength(15, MinimumLength = 3,
-        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 100 characters")]
+        [StringLength(20, MinimumLength = 3,
+        ErrorMessage = "Name Should be minimum 3 characters and a maximum of 20 characters")]
         [DataType(DataType.Text)]
         public string LastName
         {
             get;
             set;
         }
-
-
+        
         //EmailId is public property for set and get with proper validation
         [DataType(DataType.EmailAddress)]
         [EmailAddress]
@@ -68,6 +64,8 @@ namespace UserModel
         //Password is public property for set and get with proper validation
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(20,MinimumLength =6,
+            ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
         public string Password
         {
             get;

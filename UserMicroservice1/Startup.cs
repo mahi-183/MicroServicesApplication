@@ -40,6 +40,14 @@ namespace UserMicroservice
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
 
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequiredLength = 6;
+            });
             
             services.AddTransient<IUserBusinessManager, UserBusinessManagerService>();
             services.AddTransient<IUserRepositoryManager, UserRepositoryManagerService>();
@@ -47,13 +55,33 @@ namespace UserMicroservice
 
             ////Jwt Authentication
 
+            var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
+            services.AddAuthentication(x =>
+            {
+                x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(x=>
+            {
+                x.RequireHttpsMetadata = false;
+                x.SaveToken = false;
+                x.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuerSigningKey = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(key),
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
             //var key = Encoding.UTF8.GetBytes(Configuration["ConnectionString:jwt_secret"].ToString());
             //services.AddAuthentication(x =>
             //{
             //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
             //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             //    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(x=>
+            //}).AddJwtBearer(x =>
             //{
             //    //addjwtbearer is for allow the only https request from client requet
             //    x.RequireHttpsMetadata = false;
@@ -85,7 +113,9 @@ namespace UserMicroservice
                 app.UseHsts();
             }
 
+            
             //this for JWtToken generation
+            
             //app.UserCors(builder =>
             //builder.WithOrigins(Configuration["ApplicationSettings: Client_Url"].ToString())
             //.AlloAnyHeader()

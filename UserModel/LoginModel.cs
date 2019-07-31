@@ -17,7 +17,9 @@ namespace UserModel
     /// </summary>
     public class LoginModel
     {
-        [EmailAddress]
+        [DataType(DataType.Text)]
+        [StringLength(15, MinimumLength = 3,
+               ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
         [Required]
         public string UserName
         {
