@@ -27,19 +27,6 @@ namespace UserBusinessManager.Service
             this.userRepositoryManager = userRepositoryManager;
         }
 
-        //user login from username and password   
-        public async Task<string> Login(LoginModel loginModel)
-        {
-            try
-            {
-                return await this.userRepositoryManager.Login(loginModel);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
         public Task<bool> Registration(RegistrationModel registrationModel)
         {
             try
@@ -51,5 +38,19 @@ namespace UserBusinessManager.Service
                 throw new Exception(ex.Message);
             }
         }
-    }
+
+        //Login with username and password   
+        public async Task<string> Login(LoginModel loginModel)
+        {
+            try
+            {
+            var result =  await this.userRepositoryManager.Login(loginModel);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+}
 }

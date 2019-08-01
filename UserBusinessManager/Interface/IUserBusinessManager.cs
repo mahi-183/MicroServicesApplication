@@ -21,5 +21,7 @@ namespace UserBusinessManager.Interface
         Task<bool> Registration(RegistrationModel registrationModel);
 
         Task<string> Login(LoginModel loginModel);
+
+        //Task<object> GetUserProfile();
     }
 }

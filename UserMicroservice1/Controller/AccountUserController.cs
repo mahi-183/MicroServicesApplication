@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using UserBusinessManager.Interface;
 using UserModel;
@@ -14,11 +16,12 @@ namespace UserMicroservice.Controller
     public class AccountUserController : ControllerBase
     {
         IUserBusinessManager businessManager;
+        private UserManager<ApplicationUser> _userManager;
 
-        public AccountUserController(IUserBusinessManager businessManager)
+        public AccountUserController(IUserBusinessManager businessManager,UserManager<ApplicationUser> userManager)
         {
-
             this.businessManager = businessManager;
+            this._userManager = userManager;
         }
 
         [HttpPost]
@@ -30,9 +33,42 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("Login")]
-        public Task<string> Login(LoginModel loginModel)
+        public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            return this.businessManager.Login(loginModel);
+            var result = await this.businessManager.Login(loginModel);
+            if ( result == null )
+            {
+              return  this.BadRequest();
+            }
+            else
+            {
+                return this.Ok(new { result });
+            }
+           
+            
+        }
+
+        [HttpGet]
+        [Authorize]
+        //Get: api/UserProfile
+        public async Task<Object> UserProfile()
+        {
+            string userId = User.Claims.First(c => c.Type == "UserId").Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return BadRequest();
+            }
+            else
+            {
+                return new
+                {
+                    user.FirstName,
+                    user.LastName,
+                    user.UserName,
+                    user.Id
+                };
+            }
         }
     }
 }

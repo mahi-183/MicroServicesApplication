@@ -8,6 +8,7 @@
 namespace UserRepositoryManager
 {
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using System;
     using System.Collections.Generic;
@@ -16,7 +17,7 @@ namespace UserRepositoryManager
     using System.Text;
     using System.Threading.Tasks;
     using UserModel;
-    
+    //using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// UserRepositoryService class implents the interface IUserRepository
@@ -25,38 +26,16 @@ namespace UserRepositoryManager
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
+        private readonly ApplicationSetting _applicationSetting;
 
-        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,IOptions<ApplicationSetting> appSetting)
         {
             this._userManager = userManager;
             this._signInManager = signInManager;
+            this._applicationSetting = appSetting.Value;
         }
 
-        public async Task<string> Login(LoginModel loginModel)
-        {
-            var user = await _userManager.FindByNameAsync(loginModel.UserName);
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
-            {
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = new ClaimsIdentity(new Claim[]
-                    {
-                        new Claim("UserId",user.Id.ToString())
-                    }),
-                    Expires = DateTime.UtcNow.AddMinutes(5),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes("1234567890123456")), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenHandler = new JwtSecurityTokenHandler();
-                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(securityToken);
-                return token;
-            }
-            else
-            {
-                return true.ToString();
-            }
-        }
-
+        //Registration 
         public async Task<bool> Registration(RegistrationModel registrationModel)
         {
             var applicationUser = new ApplicationUser()
@@ -88,6 +67,48 @@ namespace UserRepositoryManager
                 throw new Exception(ex.Message);
             }
         }
+
+        //Login with UserName and Password
+        public async Task<string> Login(LoginModel loginModel)
+        {
+            var user = await _userManager.FindByNameAsync(loginModel.UserName);
+            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
+            {
+                var tokenDescriptor = new SecurityTokenDescriptor
+                {
+                    Subject = new ClaimsIdentity(new Claim[] 
+                    {
+                        new Claim("UserId",user.Id.ToString())
+                    }),
+                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSetting.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
+                };
+                var tokenHandler = new JwtSecurityTokenHandler();
+                var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                var token = tokenHandler.WriteToken(securityToken);
+
+                return (token);
+            }
+            else
+            {
+                //return BadRequest(new { Message = "UserName and Passward is incorrect" });
+                var message = "UserName and Password is incorrest";
+                return message;
+            }
+        }
+        
+        //public async Task<object> GetUserProfile()
+        //{
+        //    string userId = User.Claims.First(c => c.Type == "UserId").Value;
+        //    var user = await _userManager.FindByIdAsync(userId);
+        //    return new
+        //    {
+        //        user.FirstName,
+        //        user.LastName,
+        //        user.UserName,
+        //        user.Email
+        //    };
+        //}
     }
 }
  

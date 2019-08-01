@@ -21,5 +21,7 @@ namespace UserRepositoryManager
         Task<string> Login(LoginModel loginModel);
 
         Task<bool> Registration(RegistrationModel registrationModel);
+
+        //Task<object> GetUserProfile();
     }
 }
