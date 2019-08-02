@@ -22,6 +22,8 @@ namespace UserBusinessManager.Interface
 
         Task<string> Login(LoginModel loginModel);
 
-        //Task<object> GetUserProfile();
+        Task<string> ForgetPassword(ForgetPassword forgetPassword);
+
+        //Task<string> ResetPasssword(ResetPassword resetPassword);
     }
 }

@@ -96,18 +96,41 @@ namespace UserRepositoryManager
                 return message;
             }
         }
-        
-        //public async Task<object> GetUserProfile()
+
+
+        public async Task<string> ForgetPassword(ForgetPassword forgetPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(forgetPassword.EmailId);
+            if (user == null)
+            {
+                var message = "EmailId Is Invalid";
+                return message;
+            }
+            else
+            {
+                //string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                //await _userManager.ConfirmEmailAsync(user, token);
+
+                MSMQ msmq = new MSMQ();
+                msmq.sendEmailToQueue(forgetPassword.EmailId);
+                return true.ToString();
+            }
+        }
+
+        //public async Task<string> ResetPassword(ResetPassword resetPassword)
         //{
-        //    string userId = User.Claims.First(c => c.Type == "UserId").Value;
-        //    var user = await _userManager.FindByIdAsync(userId);
-        //    return new
+        //    var user = await _userManager.FindByEmailAsync(resetPassword.Password);
+        //    if (user == null)
         //    {
-        //        user.FirstName,
-        //        user.LastName,
-        //        user.UserName,
-        //        user.Email
-        //    };
+        //        var message = "EmailId Is Invalid";
+        //        return message;
+        //    }
+        //    else
+        //    {
+        //        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+        //        await _userManager.ConfirmEmailAsync(user, token);
+        //        return token;
+        //    }
         //}
     }
 }

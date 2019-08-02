@@ -35,14 +35,14 @@ namespace UserMicroservice.Controller
         [Route("Login")]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            var result = await this.businessManager.Login(loginModel);
-            if ( result == null )
+            var Token = await this.businessManager.Login(loginModel);
+            if ( Token == null )
             {
               return  this.BadRequest();
             }
             else
             {
-                return this.Ok(new { result });
+                return this.Ok(new { Token });
             }
            
             
@@ -70,5 +70,21 @@ namespace UserMicroservice.Controller
                 };
             }
         }
+
+        [HttpPost]
+        [Route("ForgetPassword")]
+        public async Task<IActionResult> ForgetPassword(ForgetPassword forgetPassword)
+        {
+            var result = await this.businessManager.ForgetPassword(forgetPassword);
+            if (result != null)
+            {
+                return this.Ok(new { result });
+            }
+            else
+            {
+                return BadRequest();
+            }   
+        }
+
     }
 }

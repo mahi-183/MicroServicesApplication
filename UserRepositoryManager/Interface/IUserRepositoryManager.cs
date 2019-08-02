@@ -22,6 +22,9 @@ namespace UserRepositoryManager
 
         Task<bool> Registration(RegistrationModel registrationModel);
 
-        //Task<object> GetUserProfile();
+        Task<string> ForgetPassword(ForgetPassword forgetPassword);
+
+        //Task<string> ResetPassword(ResetPassword resetPassword);
+        
     }
 }

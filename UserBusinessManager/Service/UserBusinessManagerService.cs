@@ -44,7 +44,7 @@ namespace UserBusinessManager.Service
         {
             try
             {
-            var result =  await this.userRepositoryManager.Login(loginModel);
+                var result =  await this.userRepositoryManager.Login(loginModel);
                 return result;
             }
             catch (Exception ex)
@@ -52,5 +52,31 @@ namespace UserBusinessManager.Service
                 throw new Exception(ex.Message);
             }
         }
-}
+
+        public async Task<string> ForgetPassword(ForgetPassword forgetPassword)
+        {
+            try
+            {
+                var result = await this.userRepositoryManager.ForgetPassword(forgetPassword);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        //public async Task<string> ResetPassword(ResetPassword resetPassword)
+        //{
+        //    try
+        //    {
+        //        var result = await this.userRepositoryManager.ForgetPassword(resetPassword.ConfirmPassword);
+        //        return result;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
+    }
 }
