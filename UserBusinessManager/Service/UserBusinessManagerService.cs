@@ -53,11 +53,11 @@ namespace UserBusinessManager.Service
             }
         }
 
-        public async Task<string> ForgetPassword(ForgetPassword forgetPassword)
+        public async Task<string> ForgetPassword(string email)
         {
             try
             {
-                var result = await this.userRepositoryManager.ForgetPassword(forgetPassword);
+                var result = await this.userRepositoryManager.ForgetPassword(email);
                 return result;
             }
             catch (Exception ex)

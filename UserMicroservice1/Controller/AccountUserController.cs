@@ -13,6 +13,7 @@ namespace UserMicroservice.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class AccountUserController : ControllerBase
     {
         IUserBusinessManager businessManager;
@@ -26,6 +27,7 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("Register")]
+        [AllowAnonymous]
         public Task<bool> Registration(RegistrationModel registartionModel)
          {
             return this.businessManager.Registration(registartionModel);
@@ -33,8 +35,9 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("Login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel loginModel)
-        {
+         {
             var Token = await this.businessManager.Login(loginModel);
             if ( Token == null )
             {
@@ -49,7 +52,6 @@ namespace UserMicroservice.Controller
         }
 
         [HttpGet]
-        [Authorize]
         //Get: api/UserProfile
         public async Task<Object> UserProfile()
         {
@@ -73,9 +75,10 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("ForgetPassword")]
-        public async Task<IActionResult> ForgetPassword(ForgetPassword forgetPassword)
+        [AllowAnonymous]
+        public async Task<IActionResult> ForgetPassword(string email)
         {
-            var result = await this.businessManager.ForgetPassword(forgetPassword);
+            var result = await this.businessManager.ForgetPassword(email);
             if (result != null)
             {
                 return this.Ok(new { result });

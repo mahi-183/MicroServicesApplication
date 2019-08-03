@@ -15,12 +15,12 @@ namespace UserModel
 
     public class MSMQ
     {
-        public void sendEmailToQueue(string EmailId)
+        public void sendEmailToQueue(string EmailId,string token)
         {
             // check if queue exists, if not create it
             MessageQueue msMq = null;
             //path of queue where the the mail gets stored for queuing 
-            const string queueName = @".\private$\sendmail";
+            const string queueName = @".\private$\Mail";
 
             if (!MessageQueue.Exists(queueName))
             {
@@ -33,12 +33,7 @@ namespace UserModel
 
             try
             {
-                // msMq.Send("Sending data to MSMQ at " + DateTime.Now.ToString());
-                ForgetPassword p = new ForgetPassword()
-                {
-                    EmailId = EmailId
-                };
-                msMq.Send(p);
+                msMq.Send(EmailId);
             }
             catch (MessageQueueException ee)
             {

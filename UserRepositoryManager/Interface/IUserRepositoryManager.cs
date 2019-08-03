@@ -22,7 +22,7 @@ namespace UserRepositoryManager
 
         Task<bool> Registration(RegistrationModel registrationModel);
 
-        Task<string> ForgetPassword(ForgetPassword forgetPassword);
+        Task<string> ForgetPassword(string email);
 
         //Task<string> ResetPassword(ResetPassword resetPassword);
         

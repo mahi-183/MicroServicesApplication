@@ -22,7 +22,7 @@ namespace UserBusinessManager.Interface
 
         Task<string> Login(LoginModel loginModel);
 
-        Task<string> ForgetPassword(ForgetPassword forgetPassword);
+        Task<string> ForgetPassword(string email);
 
         //Task<string> ResetPasssword(ResetPassword resetPassword);
     }

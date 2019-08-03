@@ -98,26 +98,26 @@ namespace UserRepositoryManager
         }
 
 
-        public async Task<string> ForgetPassword(ForgetPassword forgetPassword)
+        public async Task<string> ForgetPassword(string email)
         {
-            var user = await _userManager.FindByEmailAsync(forgetPassword.EmailId);
-            if (user == null)
+            var Email = await _userManager.FindByEmailAsync(email);
+            if (Email != null)
+            {
+                MSMQ msmq = new MSMQ();
+                //string token = await _userManager.GenerateEmailConfirmationTokenAsync(Email);
+                //await _userManager.ConfirmEmailAsync(Email, token);
+                msmq.sendEmailToQueue(email);
+                return true.ToString();
+            }
+            else
             {
                 var message = "EmailId Is Invalid";
                 return message;
             }
-            else
-            {
-                //string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                //await _userManager.ConfirmEmailAsync(user, token);
-
-                MSMQ msmq = new MSMQ();
-                msmq.sendEmailToQueue(forgetPassword.EmailId);
-                return true.ToString();
-            }
         }
 
-        //public async Task<string> ResetPassword(ResetPassword resetPassword)
+
+        //public async Task<string> ResetPassword(ResetPassword resetPassword,string token)
         //{
         //    var user = await _userManager.FindByEmailAsync(resetPassword.Password);
         //    if (user == null)
