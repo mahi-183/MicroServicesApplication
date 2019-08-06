@@ -24,6 +24,6 @@ namespace UserBusinessManager.Interface
 
         Task<string> ForgetPassword(string email);
 
-        //Task<string> ResetPasssword(ResetPassword resetPassword);
+        Task<string> ResetPasssword(ResetPassword resetPassword);
     }
 }

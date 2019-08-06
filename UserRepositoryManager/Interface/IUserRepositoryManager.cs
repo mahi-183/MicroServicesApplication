@@ -24,7 +24,7 @@ namespace UserRepositoryManager
 
         Task<string> ForgetPassword(string email);
 
-        //Task<string> ResetPassword(ResetPassword resetPassword);
+        Task<string> ResetPassword(ResetPassword resetPassword);
         
     }
 }

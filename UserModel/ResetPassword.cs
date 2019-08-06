@@ -19,8 +19,8 @@ namespace UserModel
             ErrorMessage = "Passord must be minimum 3 charecter and maximum 15 charecter")]
         public string Password { get; set; }
 
-        [DataType(DataType.Password)]
-        [Compare("Password", ErrorMessage = "Password and ConfirmPassword should be equal")]
-        public string ConfirmPassword { get; set; }
+        [EmailAddress]
+        public string Email { get; set; } 
+
     }
 }

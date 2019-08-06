@@ -70,13 +70,26 @@ namespace UserBusinessManager.Service
         //{
         //    try
         //    {
-        //        var result = await this.userRepositoryManager.ForgetPassword(resetPassword.ConfirmPassword);
-        //        return result;
+        //        var result = await this.userRepositoryManager.ResetPassword(resetPassword);
+        //        return result.ToString();
         //    }
         //    catch (Exception ex)
         //    {
         //        throw new Exception(ex.Message);
         //    }
         //}
+
+        public async Task<string> ResetPasssword(ResetPassword resetPassword)
+        {
+            try
+            {
+                var result = await userRepositoryManager.ResetPassword(resetPassword);
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

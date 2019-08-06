@@ -15,7 +15,7 @@ namespace UserModel
 
     public class MSMQ
     {
-        public void sendEmailToQueue(string EmailId,string token)
+        public void sendEmailToQueue(string EmailId)
         {
             // check if queue exists, if not create it
             MessageQueue msMq = null;

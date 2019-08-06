@@ -88,6 +88,20 @@ namespace UserMicroservice.Controller
                 return BadRequest();
             }   
         }
-
+        [HttpPost]
+        [Route("ResetPassword")]
+        [AllowAnonymous]
+        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
+        {
+            var result = await this.businessManager.ResetPasssword(resetPassword);
+            if (result != null)
+            {
+                return this.Ok(new { result });
+            }
+            else
+            {
+                return BadRequest();
+            }
+        }
     }
 }

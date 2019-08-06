@@ -117,21 +117,21 @@ namespace UserRepositoryManager
         }
 
 
-        //public async Task<string> ResetPassword(ResetPassword resetPassword,string token)
-        //{
-        //    var user = await _userManager.FindByEmailAsync(resetPassword.Password);
-        //    if (user == null)
-        //    {
-        //        var message = "EmailId Is Invalid";
-        //        return message;
-        //    }
-        //    else
-        //    {
-        //        string token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-        //        await _userManager.ConfirmEmailAsync(user, token);
-        //        return token;
-        //    }
-        //}
+        public async Task<string> ResetPassword(ResetPassword resetPassword)
+        {
+            var user = await _userManager.FindByEmailAsync(resetPassword.Email);
+            if (user == null)
+            {
+                var message = "EmailId Is Invalid";
+                return message;
+            }
+            else
+            {
+                var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+                var result = await _userManager.ResetPasswordAsync(user, token,resetPassword.Password);
+                return result.ToString();
+            }
+        }
     }
 }
  
