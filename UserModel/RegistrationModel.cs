@@ -29,6 +29,7 @@ namespace UserModel
             get;
             set;
         }
+
         //FirstName is public property for set and get with proper validation
         [Required(ErrorMessage = "{0} is mandatory field")]
         [StringLength(20, MinimumLength = 3,

@@ -31,8 +31,7 @@ namespace UserMicroservice
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            //Inject AppSedttings
-
+            //Inject AppSettings
             services.Configure<ApplicationSetting>(Configuration.GetSection("ApplicationSettings"));
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
@@ -44,6 +43,7 @@ namespace UserMicroservice
             services.AddDefaultIdentity<ApplicationUser>()
                 .AddEntityFrameworkStores<AuthenticationContext>();
 
+            //validation for Password
             services.Configure<IdentityOptions>(options =>
             {
                 options.Password.RequireDigit = false;
@@ -78,30 +78,6 @@ namespace UserMicroservice
                     ClockSkew = TimeSpan.Zero
                 };
             });
-
-            //var key = Encoding.UTF8.GetBytes(Configuration["ConnectionString:jwt_secret"].ToString());
-            //services.AddAuthentication(x =>
-            //{
-            //    x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            //    x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            //}).AddJwtBearer(x =>
-            //{
-            //    //addjwtbearer is for allow the only https request from client requet
-            //    x.RequireHttpsMetadata = false;
-            //    //after successful authentication if we dont need to save token on server 
-            //    x.SaveToken = true;
-            //    //validate token after successful authentication
-            //    x.TokenValidationParameters = new TokenValidationParameters
-            //    {
-            //        // The system can validate the security key during the token validation
-            //        ValidateIssuerSigningKey = true,
-            //        IssuerSigningKey = new SymmetricSecurityKey(key),
-            //        ValidateIssuer = false,
-            //        ValidateAudience = false,
-            //        ClockSkew = TimeSpan.Zero
-            //    };
-            //});
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

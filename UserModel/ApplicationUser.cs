@@ -15,7 +15,7 @@ namespace UserModel
     
 
     /// <summary>
-    /// ApplicationUser class
+    /// ApplicationUser class Derived the IdentiyUser
     /// </summary>
     /// <seealso cref="Microsoft.AspNet.Identity.EntityFramework.IdentityDbContext" />
     public class ApplicationUser : IdentityUser

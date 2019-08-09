@@ -18,12 +18,32 @@ namespace UserRepositoryManager
     /// </summary>
     public interface IUserRepositoryManager
     {
+        /// <summary>
+        /// Logins the specified login model.
+        /// </summary>
+        /// <param name="loginModel">The login model.</param>
+        /// <returns></returns>
         Task<string> Login(LoginModel loginModel);
 
+        /// <summary>
+        /// Registrations the specified registration model.
+        /// </summary>
+        /// <param name="registrationModel">The registration model.</param>
+        /// <returns></returns>
         Task<bool> Registration(RegistrationModel registrationModel);
 
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
         Task<string> ForgetPassword(string email);
 
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="resetPassword">The reset password.</param>
+        /// <returns></returns>
         Task<string> ResetPassword(ResetPassword resetPassword);
         
     }

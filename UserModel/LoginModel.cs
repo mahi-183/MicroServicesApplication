@@ -29,6 +29,8 @@ namespace UserModel
 
         [Required]
         [DataType(DataType.Password)]
+        [StringLength(15, MinimumLength = 6,
+            ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
         public string Password
         {
             get;

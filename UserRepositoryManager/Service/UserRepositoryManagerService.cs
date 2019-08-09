@@ -20,35 +20,48 @@ namespace UserRepositoryManager
     //using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
-    /// UserRepositoryService class implents the interface IUserRepository
+    /// UserRepositoryService class implents the IUserRepository methods
     /// </summary>
+    /// <seealso cref="UserRepositoryManager.IUserRepositoryManager" />
     public class UserRepositoryManagerService : IUserRepositoryManager
     {
+        //create reference of UserManager 
         private UserManager<ApplicationUser> _userManager;
-        private SignInManager<ApplicationUser> _signInManager;
+        //create reference of ApplicationSetting for encoding jwt secrete key string
         private readonly ApplicationSetting _applicationSetting;
 
-        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager,IOptions<ApplicationSetting> appSetting)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="UserRepositoryManagerService"/> class.
+        /// </summary>
+        /// <param name="userManager">The user manager.</param>
+        /// <param name="appSetting">The application setting.</param>
+        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, IOptions<ApplicationSetting> appSetting)
         {
             this._userManager = userManager;
-            this._signInManager = signInManager;
             this._applicationSetting = appSetting.Value;
         }
 
-        //Registration 
+        /// <summary>
+        /// Registrations the specified registration model.
+        /// </summary>
+        /// <param name="registrationModel">The registration model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<bool> Registration(RegistrationModel registrationModel)
         {
+            //set the registrations feilds in object applicationUser
             var applicationUser = new ApplicationUser()
             {
                 UserName = registrationModel.UserName,
                 Email = registrationModel.EmailId,
                 FirstName = registrationModel.FirstName,
                 LastName = registrationModel.LastName,
-                
             };
             try
             {
+                //create password for register user 
                 var result = await _userManager.CreateAsync(applicationUser, registrationModel.Password);
+                //check registation succeded or not
                 if (result.Succeeded)
                 {
                     string token =await _userManager.GenerateEmailConfirmationTokenAsync(applicationUser);
@@ -68,7 +81,11 @@ namespace UserRepositoryManager
             }
         }
 
-        //Login with UserName and Password
+        /// <summary>
+        /// Logins the specified login model.
+        /// </summary>
+        /// <param name="loginModel">The login model.</param>
+        /// <returns></returns>
         public async Task<string> Login(LoginModel loginModel)
         {
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
@@ -80,6 +97,7 @@ namespace UserRepositoryManager
                     {
                         new Claim("UserId",user.Id.ToString())
                     }),
+                    //Token Expiry time 
                     Expires = DateTime.UtcNow.AddMinutes(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSetting.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
@@ -87,6 +105,7 @@ namespace UserRepositoryManager
                 var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                 var token = tokenHandler.WriteToken(securityToken);
 
+                //return token in string formate
                 return (token);
             }
             else
@@ -98,6 +117,11 @@ namespace UserRepositoryManager
         }
 
 
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
         public async Task<string> ForgetPassword(string email)
         {
             var Email = await _userManager.FindByEmailAsync(email);
@@ -116,7 +140,11 @@ namespace UserRepositoryManager
             }
         }
 
-
+        /// <summary>
+        /// Resets the password.
+        /// </summary>
+        /// <param name="resetPassword">The reset password.</param>
+        /// <returns></returns>
         public async Task<string> ResetPassword(ResetPassword resetPassword)
         {
             var user = await _userManager.FindByEmailAsync(resetPassword.Email);
@@ -127,8 +155,9 @@ namespace UserRepositoryManager
             }
             else
             {
+                //generate the token
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
-                var result = await _userManager.ResetPasswordAsync(user, token,resetPassword.Password);
+                var result = await _userManager.ResetPasswordAsync(user, token, resetPassword.Password);
                 return result.ToString();
             }
         }

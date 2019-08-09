@@ -20,8 +20,10 @@ namespace UserBusinessManager.Service
     /// <seealso cref="UserBusinessManager.Interface.IUserBusinessManager" />
     public class UserBusinessManagerService : IUserBusinessManager
     {
+        //create the reference of IUserRepositoryManager Layer
         IUserRepositoryManager userRepositoryManager;
 
+        //Inject the IuserRepositoryManager 
         public UserBusinessManagerService(IUserRepositoryManager userRepositoryManager)
         {
             this.userRepositoryManager = userRepositoryManager;
@@ -31,6 +33,7 @@ namespace UserBusinessManager.Service
         {
             try
             {
+                //RepositoryManager Layer method called
                 return this.userRepositoryManager.Registration(registrationModel);
             }
             catch(Exception ex)
@@ -39,11 +42,17 @@ namespace UserBusinessManager.Service
             }
         }
 
-        //Login with username and password   
+        /// <summary>
+        /// Logins the specified login model.
+        /// </summary>
+        /// <param name="loginModel">The login model.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<string> Login(LoginModel loginModel)
         {
             try
             {
+                //RepositoryManager Layer method called
                 var result =  await this.userRepositoryManager.Login(loginModel);
                 return result;
             }
@@ -53,10 +62,17 @@ namespace UserBusinessManager.Service
             }
         }
 
+        /// <summary>
+        /// Forgets the password.
+        /// </summary>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<string> ForgetPassword(string email)
         {
             try
             {
+                //RepositoryManager Layer method called
                 var result = await this.userRepositoryManager.ForgetPassword(email);
                 return result;
             }
@@ -66,23 +82,17 @@ namespace UserBusinessManager.Service
             }
         }
 
-        //public async Task<string> ResetPassword(ResetPassword resetPassword)
-        //{
-        //    try
-        //    {
-        //        var result = await this.userRepositoryManager.ResetPassword(resetPassword);
-        //        return result.ToString();
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
-
+        /// <summary>
+        /// Resets the passsword.
+        /// </summary>
+        /// <param name="resetPassword">The reset password.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception"></exception>
         public async Task<string> ResetPasssword(ResetPassword resetPassword)
         {
             try
             {
+                //RepositoryManager Layer method called
                 var result = await userRepositoryManager.ResetPassword(resetPassword);
                 return result;
             }

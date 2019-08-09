@@ -16,9 +16,16 @@ namespace UserMicroservice.Controller
     [Authorize]
     public class AccountUserController : ControllerBase
     {
+        //create the reference of the IUserBusinessManager
         IUserBusinessManager businessManager;
+        //reference of the UserManager 
         private UserManager<ApplicationUser> _userManager;
 
+        /// <summary>
+        /// intantiate the constructor
+        /// </summary>
+        /// <param name="businessManager"></param>
+        /// <param name="userManager"></param>
         public AccountUserController(IUserBusinessManager businessManager,UserManager<ApplicationUser> userManager)
         {
             this.businessManager = businessManager;
@@ -30,21 +37,25 @@ namespace UserMicroservice.Controller
         [AllowAnonymous]
         public Task<bool> Registration(RegistrationModel registartionModel)
          {
+            //business layer method called
             return this.businessManager.Registration(registartionModel);
         }
 
-        [HttpPost]
+        [HttpPost]   
         [Route("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel loginModel)
          {
+            //token comes inside the Token string variable
             var Token = await this.businessManager.Login(loginModel);
             if ( Token == null )
             {
+                //token is null return bad request
               return  this.BadRequest();
             }
             else
             {
+                //return token
                 return this.Ok(new { Token });
             }
            
@@ -55,6 +66,7 @@ namespace UserMicroservice.Controller
         //Get: api/UserProfile
         public async Task<Object> UserProfile()
         {
+            //To verified the userId with payload
             string userId = User.Claims.First(c => c.Type == "UserId").Value;
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null)
@@ -78,6 +90,7 @@ namespace UserMicroservice.Controller
         [AllowAnonymous]
         public async Task<IActionResult> ForgetPassword(string email)
         {
+            //businessManger method called
             var result = await this.businessManager.ForgetPassword(email);
             if (result != null)
             {
@@ -93,6 +106,7 @@ namespace UserMicroservice.Controller
         [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
         {
+            //BusinessManager layer method callled 
             var result = await this.businessManager.ResetPasssword(resetPassword);
             if (result != null)
             {
