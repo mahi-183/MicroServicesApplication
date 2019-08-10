@@ -58,8 +58,6 @@ namespace UserMicroservice.Controller
                 //return token
                 return this.Ok(new { Token });
             }
-           
-            
         }
 
         [HttpGet]
