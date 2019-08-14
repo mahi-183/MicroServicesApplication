@@ -13,7 +13,6 @@ namespace UserMicroservice.Controller
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class AccountUserController : ControllerBase
     {
         //create the reference of the IUserBusinessManager
@@ -26,7 +25,7 @@ namespace UserMicroservice.Controller
         /// </summary>
         /// <param name="businessManager"></param>
         /// <param name="userManager"></param>
-        public AccountUserController(IUserBusinessManager businessManager,UserManager<ApplicationUser> userManager)
+        public AccountUserController(IUserBusinessManager businessManager, UserManager<ApplicationUser> userManager)
         {
             this.businessManager = businessManager;
             this._userManager = userManager;
@@ -34,24 +33,23 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("Register")]
-        [AllowAnonymous]
         public Task<bool> Registration(RegistrationModel registartionModel)
-         {
+        {
             //business layer method called
             return this.businessManager.Registration(registartionModel);
         }
 
-        [HttpPost]   
+        [HttpPost]
         [Route("Login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel loginModel)
-         {
+        {
             //token comes inside the Token string variable
             var Token = await this.businessManager.Login(loginModel);
-            if ( Token == null )
+            if (Token == null)
             {
                 //token is null return bad request
-              return  this.BadRequest();
+                return this.BadRequest();
             }
             else
             {
@@ -61,6 +59,7 @@ namespace UserMicroservice.Controller
         }
 
         [HttpGet]
+        [Route("Profile")]
         //Get: api/UserProfile
         public async Task<Object> UserProfile()
         {
@@ -85,7 +84,6 @@ namespace UserMicroservice.Controller
 
         [HttpPost]
         [Route("ForgetPassword")]
-        [AllowAnonymous]
         public async Task<IActionResult> ForgetPassword(string email)
         {
             //businessManger method called
@@ -101,7 +99,6 @@ namespace UserMicroservice.Controller
         }
         [HttpPost]
         [Route("ResetPassword")]
-        [AllowAnonymous]
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
         {
             //BusinessManager layer method callled 

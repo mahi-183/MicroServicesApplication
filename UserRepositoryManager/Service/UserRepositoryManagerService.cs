@@ -59,7 +59,7 @@ namespace UserRepositoryManager
             };
             try
             {
-                //create password for register user 
+                //create new user information using the UserManager Type(UserManager.CreateAsync()) 
                 var result = await _userManager.CreateAsync(applicationUser, registrationModel.Password);
                 //check registation succeded or not
                 if (result.Succeeded)
@@ -91,6 +91,7 @@ namespace UserRepositoryManager
             var user = await _userManager.FindByNameAsync(loginModel.UserName);
             if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
             {
+                //Authentication successful so generate jwt token 
                 var tokenDescriptor = new SecurityTokenDescriptor
                 {
                     Subject = new ClaimsIdentity(new Claim[] 
@@ -98,7 +99,7 @@ namespace UserRepositoryManager
                         new Claim("UserId",user.Id.ToString())
                     }),
                     //Token Expiry time 
-                    Expires = DateTime.UtcNow.AddMinutes(5),
+                    Expires = DateTime.UtcNow.AddDays(5),
                     SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_applicationSetting.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                 };
                 var tokenHandler = new JwtSecurityTokenHandler();
@@ -110,7 +111,6 @@ namespace UserRepositoryManager
             }
             else
             {
-                //return BadRequest(new { Message = "UserName and Passward is incorrect" });
                 var message = "UserName and Password is incorrest";
                 return message;
             }

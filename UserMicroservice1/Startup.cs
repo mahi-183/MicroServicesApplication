@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using UserBusinessManager.Interface;
 using UserBusinessManager.Service;
 using UserModel;
@@ -34,8 +34,6 @@ namespace UserMicroservice
             //Inject AppSettings
             services.Configure<ApplicationSetting>(Configuration.GetSection("ApplicationSettings"));
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
             //inside this we have provide database connection string
            services.AddDbContext<UserRepositoryManager.Context.AuthenticationContext>(options =>
               options.UseSqlServer(Configuration.GetConnectionString("IdentityConnection")));
@@ -52,20 +50,24 @@ namespace UserMicroservice
                 options.Password.RequireUppercase = false;
                 options.Password.RequiredLength = 6;
             });
-            
+
             services.AddTransient<IUserBusinessManager, UserBusinessManagerService>();
             services.AddTransient<IUserRepositoryManager, UserRepositoryManagerService>();
 
-
-            ////Jwt Authentication
-
+            //Add Swagger 
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyFandooApp", Version = "v1", Description = "Fandoo App" });
+            });
+            
+            //Jwt Authentication
             var key = Encoding.UTF8.GetBytes(Configuration["ApplicationSettings:JWT_Secret"].ToString());
             services.AddAuthentication(x =>
             {
                 x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
                 x.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-            }).AddJwtBearer(x=>
+            }).AddJwtBearer(x =>
             {
                 x.RequireHttpsMetadata = false;
                 x.SaveToken = false;
@@ -73,12 +75,13 @@ namespace UserMicroservice
                 {
                     ValidateIssuerSigningKey = true,
                     IssuerSigningKey = new SymmetricSecurityKey(key),
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateLifetime = true,
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
+                    ValidateLifetime = false,
                     ClockSkew = TimeSpan.Zero
                 };
             });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -94,16 +97,18 @@ namespace UserMicroservice
                 app.UseHsts();
             }
 
-            
-            //this for JWtToken generation
-            
             //app.UserCors(builder =>
             //builder.WithOrigins(Configuration["ApplicationSettings: Client_Url"].ToString())
             //.AlloAnyHeader()
             //.AllowAnyMethod()
             //);
-
-            //call use authentication from aap variable
+            app.UseSwagger();
+            app.UseSwaggerUI(options =>
+            {
+                options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFandooApp");
+            });
+            //configure the pipeline to use authentication
+            //make the authentication service is available to the application
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
