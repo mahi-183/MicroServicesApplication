@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserModel;
 
 namespace UserMicroservice.Controllers
 {
@@ -19,12 +22,37 @@ namespace UserMicroservice.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet]
+        [Route("get/{id}")]
+        public async Task<IList<NotesModel>> Get(string id)
         {
-            return "value";
-        }
+            try
+            {
+                IList<NotesModel> product = null;
+                using (var client = new HttpClient())
+                {
+                    /// gets the token which is passed
+                    var accessToken = Request.Headers["Authorization"].ToString();
+                    string[] strArr = null;
+                    char[] splitchar = { ' ' };
+                    /// splits the token to get the token without bearer keyword
+                    strArr = accessToken.Split(splitchar);
+                    /// adding token in httpclient instance
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strArr[1]);
+                    /// calling api from other services
+                    var response = await client.GetAsync("https://localhost:44337/api/notes/" + id);
+                    response.EnsureSuccessStatusCode();
+                    product = await response.Content.ReadAsAsync<IList<NotesModel>>();
+                    // return product;
+                }
+                return product;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
 
+        }
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)

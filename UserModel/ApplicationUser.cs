@@ -4,7 +4,6 @@
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UserModel
 {
     using Microsoft.AspNetCore.Identity;
