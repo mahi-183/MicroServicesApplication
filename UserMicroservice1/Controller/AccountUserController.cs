@@ -97,6 +97,7 @@ namespace UserMicroservice.Controller
                 return BadRequest();
             }   
         }
+
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)

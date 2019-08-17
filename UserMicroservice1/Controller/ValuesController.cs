@@ -40,7 +40,7 @@ namespace UserMicroservice.Controllers
                     /// adding token in httpclient instance
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strArr[1]);
                     /// calling api from other services
-                    var response = await client.GetAsync("https://localhost:44337/api/notes/" + id);
+                    var response = await client.GetAsync("https://localhost:44337/api/Notes/GetNotes" + id);
                     response.EnsureSuccessStatusCode();
                     product = await response.Content.ReadAsAsync<IList<NotesModel>>();
                     // return product;
@@ -51,8 +51,8 @@ namespace UserMicroservice.Controllers
             {
                 throw new Exception(ex.Message);
             }
-
         }
+
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
