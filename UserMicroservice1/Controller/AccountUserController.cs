@@ -103,7 +103,7 @@ namespace UserMicroservice.Controller
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
         {
             //BusinessManager layer method callled 
-            var result = await this.businessManager.ResetPasssword(resetPassword);
+            var result = await this.businessManager.ResetPassword(resetPassword);
             if (result != null)
             {
                 return this.Ok(new { result });
@@ -111,6 +111,35 @@ namespace UserMicroservice.Controller
             else
             {
                 return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [Route("ImageUpload")]
+        public async Task<IActionResult> ImageUplpoad(IFormFile file, string email)
+        {
+            try
+            {
+                if (!file.Equals(null) && !email.Equals(null))
+                {
+                    var ImageUrl = await this.businessManager.ImageUpload(file, email);
+                    if (!ImageUrl.Equals(null))
+                    {
+                        return this.Ok(new { ImageUrl });
+                    }
+                    else
+                    {
+                        return this.BadRequest(new { Message = "Image not uploaded on Cloudinary" });
+                    }
+                }
+                else
+                {
+                    return BadRequest(new { Message = "Please select valid Image file or valid email"});
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

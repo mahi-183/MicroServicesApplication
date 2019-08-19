@@ -7,6 +7,7 @@
 
 namespace UserRepositoryManager
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -45,6 +46,13 @@ namespace UserRepositoryManager
         /// <param name="resetPassword">The reset password.</param>
         /// <returns></returns>
         Task<string> ResetPassword(ResetPassword resetPassword);
-        
+
+        /// <summary>
+        /// Images the upload.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
+        Task<string> ImageUpload(IFormFile file, string email);
     }
 }

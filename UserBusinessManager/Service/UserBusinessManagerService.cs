@@ -6,6 +6,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserBusinessManager.Service
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -36,7 +37,7 @@ namespace UserBusinessManager.Service
                 //RepositoryManager Layer method called
                 return this.userRepositoryManager.Registration(registrationModel);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw new Exception(ex.Message);
             }
@@ -53,7 +54,7 @@ namespace UserBusinessManager.Service
             try
             {
                 //RepositoryManager Layer method called
-                var result =  await this.userRepositoryManager.Login(loginModel);
+                var result = await this.userRepositoryManager.Login(loginModel);
                 return result;
             }
             catch (Exception ex)
@@ -88,13 +89,48 @@ namespace UserBusinessManager.Service
         /// <param name="resetPassword">The reset password.</param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public async Task<string> ResetPasssword(ResetPassword resetPassword)
+        public async Task<string> ResetPassword(ResetPassword resetPassword)
         {
             try
             {
                 //RepositoryManager Layer method called
                 var result = await userRepositoryManager.ResetPassword(resetPassword);
                 return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Images the upload.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="email">The email.</param>
+        /// <returns></returns>
+        /// <exception cref="Exception">
+        /// </exception>
+        public async Task<string> ImageUpload(IFormFile file, string email)
+        {
+            try
+            {
+                if (!file.Equals(null) && !email.Equals(null))
+                {
+                    var ImageUrl = await this.userRepositoryManager.ImageUpload(file, email);
+                    if (!ImageUrl.Equals(null))
+                    {
+                        return ImageUrl;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
             }
             catch (Exception ex)
             {

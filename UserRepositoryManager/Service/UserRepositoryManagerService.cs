@@ -7,16 +7,21 @@
 
 namespace UserRepositoryManager
 {
+    using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
     using System;
     using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
     using UserModel;
+    using UserModel.Helper;
+    using UserRepositoryManager.Context;
+
     //using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
@@ -27,18 +32,22 @@ namespace UserRepositoryManager
     {
         //create reference of UserManager 
         private UserManager<ApplicationUser> _userManager;
+        
         //create reference of ApplicationSetting for encoding jwt secrete key string
         private readonly ApplicationSetting _applicationSetting;
+
+        private AuthenticationContext context;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserRepositoryManagerService"/> class.
         /// </summary>
         /// <param name="userManager">The user manager.</param>
         /// <param name="appSetting">The application setting.</param>
-        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, IOptions<ApplicationSetting> appSetting)
+        public UserRepositoryManagerService(UserManager<ApplicationUser> userManager, IOptions<ApplicationSetting> appSetting, AuthenticationContext context)
         {
             this._userManager = userManager;
             this._applicationSetting = appSetting.Value;
+            this.context = context;
         }
 
         /// <summary>
@@ -128,6 +137,7 @@ namespace UserRepositoryManager
             if (Email != null)
             {
                 MSMQ msmq = new MSMQ();
+                
                 //string token = await _userManager.GenerateEmailConfirmationTokenAsync(Email);
                 //await _userManager.ConfirmEmailAsync(Email, token);
                 msmq.sendEmailToQueue(email);
@@ -159,6 +169,41 @@ namespace UserRepositoryManager
                 var token = await _userManager.GeneratePasswordResetTokenAsync(user);
                 var result = await _userManager.ResetPasswordAsync(user, token, resetPassword.Password);
                 return result.ToString();
+            }
+        }
+
+        public async Task<string> ImageUpload(IFormFile file, string email)
+        {
+            try
+            {
+                ////create object of the cloudinaryImage class
+                CloudinaryImage cloudinary = new CloudinaryImage();
+
+                ////Cloudinary UploadImageCloudinary method call
+                var uploadUrl = cloudinary.UploadImageCloudinary(file);
+
+                ////Query to get the note data from database 
+                var data = this.context.ApplicationUser.Where(applicationUser => applicationUser.Email == email).FirstOrDefault();
+
+                ////update the ImageUrl to database Notes table
+                data.Image = uploadUrl;
+
+                ////Update save changes in database table
+                int result = await this.context.SaveChangesAsync();
+
+                ////if result is greater than zero then return the update result 
+                if (result > 0)
+                {
+                    return data.Image;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

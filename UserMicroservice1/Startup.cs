@@ -107,6 +107,7 @@ namespace UserMicroservice
             {
                 options.SwaggerEndpoint("/swagger/v1/swagger.json", "MyFandooApp");
             });
+
             //configure the pipeline to use authentication
             //make the authentication service is available to the application
             app.UseAuthentication();

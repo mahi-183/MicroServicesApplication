@@ -6,6 +6,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserBusinessManager.Interface
 {
+    using Microsoft.AspNetCore.Http;
     using System;
     using System.Collections.Generic;
     using System.Text;
@@ -43,6 +44,8 @@ namespace UserBusinessManager.Interface
         /// </summary>
         /// <param name="resetPassword">The reset password.</param>
         /// <returns></returns>
-        Task<string> ResetPasssword(ResetPassword resetPassword);
+        Task<string> ResetPassword(ResetPassword resetPassword);
+
+        Task<string> ImageUpload(IFormFile file, string email);
     }
 }

@@ -5,6 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" Version="1.8.0" />
     <PackageReference Include="Experimental.System.Messaging" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.0.0-rc2" />
