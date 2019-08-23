@@ -1,5 +1,5 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ApplicationSetting.cs" company="Bridgelabz">
+// <copyright file="ServiceModel.cs" company="Bridgelabz">
 //   Copyright © 2019 Company="BridgeLabz"
 // </copyright>
 // <creator name="Mahesh Aurad"/>
@@ -10,25 +10,31 @@ namespace UserModel
     using System.Collections.Generic;
     using System.Text;
 
-    /// <summary>
-    /// ApplicationSetting is for set the properties JWT_Secret and Client_Url 
-    /// </summary>
-    public class ApplicationSetting
+    public class ServiceModel
     {
         /// <summary>
-        /// Gets or sets the JWT secret.
+        /// 
         /// </summary>
-        /// <value>
-        /// The JWT secret.
-        /// </value>
-        public string JWT_Secret { get; set; }
+        public int Id { get; set; }
 
         /// <summary>
-        /// Gets or sets the client URL.
+        /// 
         /// </summary>
-        /// <value>
-        /// The client URL.
-        /// </value>
-        public string Client_Url { get; set; }
+        public string ServiceName { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool IsDeleted { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? CreatedDate { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public DateTime? ModifiedDate { get; set; }
     }
 }

@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserRepositoryManager", "Us
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UserModel", "UserModel\UserModel.csproj", "{B45C92D8-1A77-44B1-BC65-D4ADD1A50288}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XUnitTestProject1", "XUnitTestProject1\XUnitTestProject1.csproj", "{0ECEC9F5-2F7A-48A9-A9D7-2C62FCF6100E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{B45C92D8-1A77-44B1-BC65-D4ADD1A50288}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B45C92D8-1A77-44B1-BC65-D4ADD1A50288}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B45C92D8-1A77-44B1-BC65-D4ADD1A50288}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0ECEC9F5-2F7A-48A9-A9D7-2C62FCF6100E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0ECEC9F5-2F7A-48A9-A9D7-2C62FCF6100E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0ECEC9F5-2F7A-48A9-A9D7-2C62FCF6100E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0ECEC9F5-2F7A-48A9-A9D7-2C62FCF6100E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

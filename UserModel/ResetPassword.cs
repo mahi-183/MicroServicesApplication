@@ -6,12 +6,11 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserModel
 {
-    using System;
-    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
-    using System.Text;
 
-    //ResetPassword is for 
+    /// <summary>
+    /// Reset password.
+    /// </summary>
     public class ResetPassword
     {
         /// <summary>
@@ -33,6 +32,5 @@ namespace UserModel
         /// </value>
         [EmailAddress]
         public string Email { get; set; } 
-
     }
 }

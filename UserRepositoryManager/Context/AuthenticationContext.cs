@@ -4,18 +4,14 @@
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UserRepositoryManager.Context
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore;
     using UserModel;
 
     /// <summary>
-    /// AuthenticationcContext class derived IdentityDbContext
+    /// AuthenticationContext class derived Identity Database Context
     /// </summary>
     /// <seealso cref="Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityDbContext" />
     public class AuthenticationContext : IdentityDbContext
@@ -26,10 +22,19 @@ namespace UserRepositoryManager.Context
         /// <param name="options">The options to be used by a <see cref="T:Microsoft.EntityFrameworkCore.DbContext" />.</param>
         public AuthenticationContext(DbContextOptions options) : base(options)
         {
-
         }
 
-        //sets the properties to ApplicationUser table in database
+        /// <summary>
+        /// Gets or sets the application user.
+        /// </summary>
+        /// <value>
+        /// The application user.
+        /// </value>
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
+
+        /// <summary>
+        /// Get or sets the applicatio user.
+        /// </summary>
+        public DbSet<ServiceModel> Service { get; set; }
     }
 }

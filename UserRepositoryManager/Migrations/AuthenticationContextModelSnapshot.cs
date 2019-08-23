@@ -189,6 +189,25 @@ namespace UserRepositoryManager.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("UserModel.ServiceModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime?>("CreatedDate");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<DateTime?>("ModifiedDate");
+
+                    b.Property<string>("ServiceName");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Service");
+                });
+
             modelBuilder.Entity("UserModel.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
@@ -196,11 +215,16 @@ namespace UserRepositoryManager.Migrations
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(150)");
 
-                    b.Property<string>("Image")
-                        .IsRequired();
+                    b.Property<string>("Image");
 
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("NotificationToken");
+
+                    b.Property<int>("ServiceId");
+
+                    b.Property<string>("UserType");
 
                     b.HasDiscriminator().HasValue("ApplicationUser");
                 });

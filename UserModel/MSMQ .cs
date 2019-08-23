@@ -4,36 +4,40 @@
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UserModel
 {
     using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Messaging;
     using Experimental.System.Messaging;
 
+    /// <summary>
+    /// The MSMQ is for sending mail to queue.
+    /// </summary>
     public class MSMQ
     {
-        public void sendEmailToQueue(string EmailId)
+        /// <summary>
+        /// Sends the email to queue.
+        /// </summary>
+        /// <param name="email">The email identifier.</param>
+        public void SendEmailToQueue(string email)
         {
-            // check if queue exists, if not create it
-            MessageQueue msMq = null;
-            //path of queue where the the mail gets stored for queuing 
-            const string queueName = @".\private$\Mail";
+            ////check if queue exists, if not create it
+            MessageQueue msmq = null;
+            
+            ////path of queue where the the mail gets stored for queuing 
+            const string QueueName = @".\private$\Mail";
 
-            if (!MessageQueue.Exists(queueName))
+            if (!MessageQueue.Exists(QueueName))
             {
-                msMq = MessageQueue.Create(queueName);
+                msmq = MessageQueue.Create(QueueName);
             }
             else
             {
-                msMq = new MessageQueue(queueName);
+                msmq = new MessageQueue(QueueName);
             }
 
             try
             {
-                msMq.Send(EmailId);
+                msmq.Send(email);
             }
             catch (MessageQueueException ee)
             {
@@ -45,8 +49,9 @@ namespace UserModel
             }
             finally
             {
-                msMq.Close();
+                msmq.Close();
             }
+
             Console.WriteLine("Message sent ......");
         }
     }

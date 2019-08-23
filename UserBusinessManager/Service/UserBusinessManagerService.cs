@@ -6,11 +6,10 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserBusinessManager.Service
 {
-    using Microsoft.AspNetCore.Http;
     using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
+    using ServiceStack.Redis;
     using UserBusinessManager.Interface;
     using UserModel;
     using UserRepositoryManager;
@@ -21,21 +20,36 @@ namespace UserBusinessManager.Service
     /// <seealso cref="UserBusinessManager.Interface.IUserBusinessManager" />
     public class UserBusinessManagerService : IUserBusinessManager
     {
-        //create the reference of IUserRepositoryManager Layer
-        IUserRepositoryManager userRepositoryManager;
+        /// <summary>
+        /// create the reference of IUserRepositoryManager Layer
+        /// </summary>
+        private IUserRepositoryManager userRepositoryManager;
 
-        //Inject the IuserRepositoryManager 
+        /// <summary>
+        /// The data
+        /// </summary>
+        private const string data = "";
+
+        /// <summary>
+        /// Initialize a new instance.
+        /// </summary>
+        /// <param name="userRepositoryManager">Initializes a new instance of the UserRepositoryManager Layer Interface.</param>
         public UserBusinessManagerService(IUserRepositoryManager userRepositoryManager)
         {
             this.userRepositoryManager = userRepositoryManager;
         }
 
-        public Task<bool> Registration(RegistrationModel registrationModel)
+        /// <summary>
+        /// User Registration method.
+        /// </summary>
+        /// <param name="registrationModel">Data of registration model.</param>
+        /// <returns>Return the result</returns>
+        public async Task<bool> Registration(RegistrationModel registrationModel)
         {
             try
             {
-                //RepositoryManager Layer method called
-                return this.userRepositoryManager.Registration(registrationModel);
+                ////RepositoryManager Layer method called
+                return await this.userRepositoryManager.Registration(registrationModel);
             }
             catch (Exception ex)
             {
@@ -47,15 +61,38 @@ namespace UserBusinessManager.Service
         /// Logins the specified login model.
         /// </summary>
         /// <param name="loginModel">The login model.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <returns>Return the token.</returns>
+        /// <exception cref="Exception">Throw exception</exception>
         public async Task<string> Login(LoginModel loginModel)
         {
             try
             {
-                //RepositoryManager Layer method called
-                var result = await this.userRepositoryManager.Login(loginModel);
-                return result;
+                var userName = loginModel.UserName;
+                var cachekey = data + userName;
+                ////RepositoryManager Layer method called
+                using (var redis = new RedisClient())
+                {
+                    ////clear the redis cache
+                    redis.Remove(cachekey);
+                    if (redis.Get(cachekey) == null)
+                    {
+                        ////UserRepository method call
+                        var result = await this.userRepositoryManager.Login(loginModel);
+                        if (!result.Equals(null))
+                        {
+                            ////stored token in redis
+                            redis.Set(cachekey,result);
+                        }
+                        return result;
+                    }
+                    else
+                    {
+                        var token = redis.Get(loginModel.UserName);
+
+                        return token.ToString();
+                    }
+                }
+                
             }
             catch (Exception ex)
             {
@@ -67,13 +104,13 @@ namespace UserBusinessManager.Service
         /// Forgets the password.
         /// </summary>
         /// <param name="email">The email.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <returns>Return the token.</returns>
+        /// <exception cref="Exception">Throw exception</exception>
         public async Task<string> ForgetPassword(string email)
         {
             try
             {
-                //RepositoryManager Layer method called
+                ////RepositoryManager Layer method called
                 var result = await this.userRepositoryManager.ForgetPassword(email);
                 return result;
             }
@@ -84,17 +121,17 @@ namespace UserBusinessManager.Service
         }
 
         /// <summary>
-        /// Resets the passsword.
+        /// Resets the password.
         /// </summary>
         /// <param name="resetPassword">The reset password.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception"></exception>
+        /// <returns>Return the result.</returns>
+        /// <exception cref="Exception">Throw exception</exception>
         public async Task<string> ResetPassword(ResetPassword resetPassword)
         {
             try
             {
-                //RepositoryManager Layer method called
-                var result = await userRepositoryManager.ResetPassword(resetPassword);
+                ////RepositoryManager Layer method called
+                var result = await this.userRepositoryManager.ResetPassword(resetPassword);
                 return result;
             }
             catch (Exception ex)
@@ -102,25 +139,23 @@ namespace UserBusinessManager.Service
                 throw new Exception(ex.Message);
             }
         }
-
+        
         /// <summary>
-        /// Images the upload.
+        /// Image Upload.
         /// </summary>
-        /// <param name="file">The file.</param>
-        /// <param name="email">The email.</param>
-        /// <returns></returns>
-        /// <exception cref="Exception">
-        /// </exception>
+        /// <param name="file">The file name.</param>
+        /// <param name="email">User Email.</param>
+        /// <returns>Return the Image url.</returns>
         public async Task<string> ImageUpload(IFormFile file, string email)
         {
             try
             {
                 if (!file.Equals(null) && !email.Equals(null))
                 {
-                    var ImageUrl = await this.userRepositoryManager.ImageUpload(file, email);
-                    if (!ImageUrl.Equals(null))
+                    var imageUrl = await this.userRepositoryManager.ImageUpload(file, email);
+                    if (!imageUrl.Equals(null))
                     {
-                        return ImageUrl;
+                        return imageUrl;
                     }
                     else
                     {

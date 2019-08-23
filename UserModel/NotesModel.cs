@@ -4,15 +4,19 @@
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UserModel
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-
+    /// <summary>
+    /// Notes Model
+    /// </summary>
     public class NotesModel
     {
+        /// <summary>
+        /// Gets or sets the user identifier.
+        /// </summary>
+        /// <value>
+        /// The user identifier.
+        /// </value>
         public string UserId { get; set; }
 
         /// <summary>

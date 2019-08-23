@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace UserRepositoryManager.Migrations
 {
-    public partial class myfundoo : Migration
+    public partial class FandooApp : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -43,11 +43,31 @@ namespace UserRepositoryManager.Migrations
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Discriminator = table.Column<string>(nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(150)", nullable: true),
-                    LastName = table.Column<string>(type: "nvarchar(150)", nullable: true)
+                    LastName = table.Column<string>(type: "nvarchar(150)", nullable: true),
+                    Image = table.Column<string>(nullable: true),
+                    UserType = table.Column<string>(nullable: true),
+                    ServiceId = table.Column<int>(nullable: true),
+                    NotificationToken = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Service",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ServiceName = table.Column<string>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false),
+                    CreatedDate = table.Column<DateTime>(nullable: true),
+                    ModifiedDate = table.Column<DateTime>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Service", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -212,6 +232,9 @@ namespace UserRepositoryManager.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
+                name: "Service");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -7,11 +7,8 @@
 
 namespace UserRepositoryManager
 {
-    using Microsoft.AspNetCore.Http;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using UserModel;
 
     /// <summary>
@@ -23,28 +20,28 @@ namespace UserRepositoryManager
         /// Logins the specified login model.
         /// </summary>
         /// <param name="loginModel">The login model.</param>
-        /// <returns></returns>
+        /// <returns>return the token.</returns>
         Task<string> Login(LoginModel loginModel);
 
         /// <summary>
         /// Registrations the specified registration model.
         /// </summary>
         /// <param name="registrationModel">The registration model.</param>
-        /// <returns></returns>
+        /// <returns>return the result.</returns>
         Task<bool> Registration(RegistrationModel registrationModel);
 
         /// <summary>
         /// Forgets the password.
         /// </summary>
         /// <param name="email">The email.</param>
-        /// <returns></returns>
+        /// <returns>return the result.</returns>
         Task<string> ForgetPassword(string email);
 
         /// <summary>
         /// Resets the password.
         /// </summary>
         /// <param name="resetPassword">The reset password.</param>
-        /// <returns></returns>
+        /// <returns>return the result.</returns>
         Task<string> ResetPassword(ResetPassword resetPassword);
 
         /// <summary>
@@ -52,7 +49,7 @@ namespace UserRepositoryManager
         /// </summary>
         /// <param name="file">The file.</param>
         /// <param name="email">The email.</param>
-        /// <returns></returns>
+        /// <returns>return the image url.</returns>
         Task<string> ImageUpload(IFormFile file, string email);
     }
 }

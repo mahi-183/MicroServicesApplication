@@ -1,30 +1,27 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="ForgetPassword.cs" company="Bridgelabz">
+// <copyright file="AdminTest.cs" company="Bridgelabz">
 //   Copyright © 2019 Company="BridgeLabz"
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
-
-namespace UserModel
+namespace XUnitTestProject1.Admin
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     using System.Text;
-
+    using Xunit;
+    
     /// <summary>
-    /// The ForgetPassword.
+    /// Test Admin functionality
     /// </summary>
-    public class ForgetPassword
+    public class AdminTest
     {
         /// <summary>
-        /// Gets or sets the email identifier.
+        /// Registrations this instance.
         /// </summary>
-        /// <value>
-        /// The email identifier.
-        /// </value>
-        [EmailAddress(ErrorMessage = "Email Address not valid")]
-        [DataType(DataType.EmailAddress)]
-        public string EmailId { get; set; }
+        [Fact]
+        public void Registration()
+        {
+        }
     }
 }

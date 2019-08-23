@@ -6,11 +6,8 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserBusinessManager.Interface
 {
-    using Microsoft.AspNetCore.Http;
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Http;
     using UserModel;
 
     /// <summary>
@@ -22,30 +19,36 @@ namespace UserBusinessManager.Interface
         /// Registrations the specified registration model.
         /// </summary>
         /// <param name="registrationModel">The registration model.</param>
-        /// <returns></returns>
+        /// <returns>Return the success result</returns>
         Task<bool> Registration(RegistrationModel registrationModel);
 
         /// <summary>
         /// Logins the specified login model.
         /// </summary>
         /// <param name="loginModel">The login model.</param>
-        /// <returns></returns>
+        /// <returns>return token.</returns>
         Task<string> Login(LoginModel loginModel);
 
         /// <summary>
         /// Forgets the password.
         /// </summary>
         /// <param name="email">The email.</param>
-        /// <returns></returns>
+        /// <returns>Result the result.</returns>
         Task<string> ForgetPassword(string email);
 
         /// <summary>
-        /// Resets the passsword.
+        /// Resets the password.
         /// </summary>
         /// <param name="resetPassword">The reset password.</param>
-        /// <returns></returns>
+        /// <returns>Return the result.</returns>
         Task<string> ResetPassword(ResetPassword resetPassword);
 
+        /// <summary>
+        /// Images the upload.
+        /// </summary>
+        /// <param name="file">The file.</param>
+        /// <param name="email">The email.</param>
+        /// <returns>Return the Image url.</returns>
         Task<string> ImageUpload(IFormFile file, string email);
     }
 }

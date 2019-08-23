@@ -7,9 +7,6 @@
 
 namespace UserModel
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
     using System.ComponentModel.DataAnnotations;
 
     /// <summary>
@@ -17,6 +14,12 @@ namespace UserModel
     /// </summary>
     public class LoginModel
     {
+        /// <summary>
+        /// Gets or sets the name of the user.
+        /// </summary>
+        /// <value>
+        /// The name of the user.
+        /// </value>
         [DataType(DataType.Text)]
         [StringLength(15, MinimumLength = 3,
                ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
@@ -27,6 +30,12 @@ namespace UserModel
             set;
         }
 
+        /// <summary>
+        /// Gets or sets the password.
+        /// </summary>
+        /// <value>
+        /// The password.
+        /// </value>
         [Required]
         [DataType(DataType.Password)]
         [StringLength(15, MinimumLength = 6,
@@ -36,6 +45,5 @@ namespace UserModel
             get;
             set;
         }
-
     }
 }
