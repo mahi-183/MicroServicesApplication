@@ -27,5 +27,11 @@ namespace UserBusinessManager.Interface
         /// <param name="loginModel">Login Model.</param>
         /// <returns>return string.</returns>
         Task<string> AdminLogin(LoginModel loginModel);
+
+        /// <summary>
+        /// UserStatistics
+        /// </summary>
+        /// <returns>return the userlist</returns>
+        Task<dynamic> UserStatistics();
     }
 }

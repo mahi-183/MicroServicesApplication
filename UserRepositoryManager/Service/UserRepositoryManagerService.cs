@@ -8,7 +8,9 @@ namespace UserRepositoryManager
 {
     using System;
     using System.IdentityModel.Tokens.Jwt;
+    using System.IO;
     using System.Linq;
+    using System.Net;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
@@ -69,7 +71,7 @@ namespace UserRepositoryManager
                 Email = registrationModel.EmailId,
                 FirstName = registrationModel.FirstName,
                 LastName = registrationModel.LastName,
-                UserType = registrationModel.UserType,
+                UserType = "User",
                 ServiceId = registrationModel.ServiceId
             };
             try
@@ -228,6 +230,53 @@ namespace UserRepositoryManager
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> SendNotificationFromFirebaseCloud()
+        {
+            try
+            {
+                var result = "-1";
+                var webAddr = "https://fcm.googleapis.com/fcm/send";
+                var httpWebRequest = (HttpWebRequest)WebRequest.Create(webAddr);
+                httpWebRequest.ContentType = "application/json";
+                httpWebRequest.Headers.Add(HttpRequestHeader.Authorization, "key=Your Key");
+                httpWebRequest.Method = "POST";
+
+                using (var streamWriter = new StreamWriter(httpWebRequest.GetRequestStream()))
+                {
+                    string strNJson = @"{
+                    ""to"": ""/topics/ServiceNow"",
+                    ""data"": {
+                        ""ShortDesc"": ""This is sample"",
+                        ""IncidentNo"": ""INC0010438"",
+                        ""Description"": ""This is sample""
+                        },
+                ""notification"": {
+                        ""title"": ""ServiceNow"",
+                        ""text"": ""Click me to open an Activity!"",
+                        ""sound"":""default""
+                        }
+                }";
+                    streamWriter.Write(strNJson);
+                    streamWriter.Flush();
+                }
+
+                var httpResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+                using (var streamReader = new StreamReader(httpResponse.GetResponseStream()))
+                {
+                    result = streamReader.ReadToEnd();
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
             }
         }
     }

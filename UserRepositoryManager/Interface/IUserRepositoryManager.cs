@@ -51,5 +51,11 @@ namespace UserRepositoryManager
         /// <param name="email">The email.</param>
         /// <returns>return the image url.</returns>
         Task<string> ImageUpload(IFormFile file, string email);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<string> SendNotificationFromFirebaseCloud();
     }
 }

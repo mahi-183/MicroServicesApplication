@@ -18,6 +18,7 @@ namespace UserRepositoryManager.Service
     using UserModel;
     using UserRepositoryManager.Context;
     using UserRepositoryManager.Interface;
+    using System.Linq;
 
     public class AdminRepositoryManagerService : IAdminRepositoryManager
     {
@@ -47,8 +48,8 @@ namespace UserRepositoryManager.Service
                     Email = registrationModel.EmailId,
                     FirstName = registrationModel.FirstName,
                     LastName = registrationModel.LastName,
-                    UserType = registrationModel.UserType
-                    //ServiceId = registrationModel.ServiceId,
+                    UserType = "Admin",
+                    ServiceId = registrationModel.ServiceId,
                 };
 
                 var result = await this.userManager.CreateAsync(applicationUser, registrationModel.Password);
@@ -87,7 +88,7 @@ namespace UserRepositoryManager.Service
                         {
                             Subject = new ClaimsIdentity(new Claim[]
                             {
-                        new Claim("UserId", user.Id.ToString())
+                                new Claim("UserId", user.Id.ToString())
                             }),
 
                             ////Token Expiry time 
@@ -103,7 +104,7 @@ namespace UserRepositoryManager.Service
                     }
                     else
                     {
-                        var result = "This is not admin";
+                        var result = "Please Login With Admin";
                         return result;
                     }
                 }
@@ -113,6 +114,41 @@ namespace UserRepositoryManager.Service
                     return result;
                 }
             }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<dynamic> UserStatistics()
+        {
+            try
+            {
+                UserStatastics userStatistics = new UserStatastics();
+                var result = (from user in this.authenticationContext.ApplicationUser
+                             where (user.ServiceId == 1)
+                             select user).Count();
+                var result1 = (from user1 in this.authenticationContext.ApplicationUser
+                               where (user1.ServiceId == 2)
+                               select user1).Count();
+
+                userStatistics.Advanced = result;
+                userStatistics.Basic = result1;
+                
+                if (!userStatistics.Equals(null))
+                {
+                    return userStatistics;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);

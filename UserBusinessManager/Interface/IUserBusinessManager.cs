@@ -50,5 +50,11 @@ namespace UserBusinessManager.Interface
         /// <param name="email">The email.</param>
         /// <returns>Return the Image url.</returns>
         Task<string> ImageUpload(IFormFile file, string email);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<string> SendNotificationFromFirebaseCloud();
     }
 }

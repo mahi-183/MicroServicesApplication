@@ -90,5 +90,25 @@ namespace UserBusinessManager.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        public async Task<dynamic> UserStatistics()
+        {
+            try
+            {
+                var result = await this.adminRepositoryManager.UserStatistics();
+                if(!result.Equals(null))
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

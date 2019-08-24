@@ -4,7 +4,7 @@ using System.Text;
 
 namespace UserModel
 {
-    class UserStatastics
+    public class UserStatastics
     {
         public int Basic { get; set; }
 

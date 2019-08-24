@@ -28,6 +28,12 @@ namespace UserRepositoryManager.Interface
         /// <param name="loginModel"></param>
         /// <returns></returns>
         Task<string> AdminLogin(LoginModel loginModel);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Task<dynamic> UserStatistics();
     }
 
 

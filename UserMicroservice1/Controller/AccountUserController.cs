@@ -59,13 +59,13 @@ namespace UserMicroservice.Controller
         /// <param name="registartionModel">The registration model.</param>
         /// <returns>Return the success result.</returns>
         [HttpPost]
-        [Route("Register")]
+        [Route("UserRegister")]
         [AllowAnonymous]
         public async Task<IActionResult> Registration(RegistrationModel registartionModel)
         {
             //// business layer method called
             var result = await this.businessManager.Registration(registartionModel);
-           
+
             if (!result)
             {
                 //// Token is null return bad request
@@ -83,13 +83,13 @@ namespace UserMicroservice.Controller
         /// <param name="loginModel">The login model.</param>
         /// <returns>Return the token.</returns>
         [HttpPost]
-        [Route("Login")]
+        [Route("UserLogin")]
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
             //// Token comes inside the Token string variable
             var token = await this.businessManager.Login(loginModel);
-            if (token == null)
+            if (token.Equals(null))
             {
                 //// Token is null return bad request
                 return this.BadRequest();
@@ -145,7 +145,7 @@ namespace UserMicroservice.Controller
             else
             {
                 return this.BadRequest();
-            }   
+            }
         }
 
         /// <summary>
@@ -205,54 +205,18 @@ namespace UserMicroservice.Controller
             }
         }
 
-        [HttpPost]
-        [Route("AdminRegistration")]
-        public async Task<IActionResult> AdminRegistration(RegistrationModel registrationModel)
+        [HttpGet]
+        [Route("sendMessage")]
+        public IActionResult SendNotificationFromFirebaseCloud()
         {
             try
             {
-                if (!ModelState.IsValid)
+                ////the businessManager Layer method called
+                var result = this.businessManager.SendNotificationFromFirebaseCloud();
+                
+                if (result.Equals(null))
                 {
-                    ////AdminBusinessManager method called
-                    var result = await this.adminBusinessManager.AdminRegistration(registrationModel);
-                    if (!result.Equals(null))
-                    {
-                        return this.Ok(new { result });
-                    }
-                    else
-                    {
-                        return this.BadRequest();
-                    }
-                }
-                else
-                {
-                    return BadRequest(new { Message = "model is invalid" });
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
-
-        [HttpPost]
-        [Route("AdminLogin")]
-        public async Task<IActionResult> AdminLogin(LoginModel loginModel)
-        {
-            try
-            {
-                if (!ModelState.IsValid)
-                {
-                    var token = await this.adminBusinessManager.AdminLogin(loginModel);
-
-                    if (token.Equals(null))
-                    {
-                        return this.Ok(new { token });
-                    }
-                    else
-                    {
-                        return this.BadRequest();
-                    }
+                    return this.Ok();
                 }
                 else
                 {
@@ -264,27 +228,5 @@ namespace UserMicroservice.Controller
                 throw new Exception(ex.Message);
             }
         }
-
-        //[HttpGet]
-        //[Route("UserStatistics")]
-        //public async IList<IActionResult> UserStatistics()
-        //{
-        //    try
-        //    {
-        //        var result = await this.adminBusinessManager.UserStatistics();
-        //        if (result.Equals(null))
-        //        {
-        //            return this.Ok(new { result });
-        //        }
-        //        else
-        //        {
-        //            throw new Exception();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new Exception(ex.Message);
-        //    }
-        //}
     }
 }

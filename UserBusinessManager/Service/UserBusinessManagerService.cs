@@ -172,5 +172,29 @@ namespace UserBusinessManager.Service
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public async Task<string> SendNotificationFromFirebaseCloud()
+        {
+            try
+            {
+                var result = await this.userRepositoryManager.SendNotificationFromFirebaseCloud();
+                if (!result.Equals(null))
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
