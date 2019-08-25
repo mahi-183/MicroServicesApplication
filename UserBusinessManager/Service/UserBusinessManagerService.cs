@@ -7,6 +7,7 @@
 namespace UserBusinessManager.Service
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using ServiceStack.Redis;
@@ -194,6 +195,38 @@ namespace UserBusinessManager.Service
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get User Details
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public IList<ApplicationUser> GetUser(string id)
+        {
+            try
+            {
+                if (!id.Equals(null))
+                {
+                    var result = this.userRepositoryManager.GetUser(id);
+                    if (!result.Equals(null))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception();
             }
         }
     }

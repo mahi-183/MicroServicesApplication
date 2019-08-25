@@ -6,6 +6,7 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserBusinessManager.Interface
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using UserModel;
@@ -56,5 +57,12 @@ namespace UserBusinessManager.Interface
         /// </summary>
         /// <returns></returns>
         Task<string> SendNotificationFromFirebaseCloud();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        IList<ApplicationUser> GetUser(string id);
     }
 }

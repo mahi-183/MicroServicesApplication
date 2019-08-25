@@ -7,6 +7,7 @@
 namespace UserRepositoryManager
 {
     using System;
+    using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.IO;
     using System.Linq;
@@ -277,6 +278,31 @@ namespace UserRepositoryManager
             catch (Exception ex)
             {
                 throw new Exception();
+            }
+        }
+
+        /// <summary>
+        /// get user details.
+        /// </summary>
+        /// <param name="id">user id.</param>
+        /// <returns>return user details.</returns>
+        public IList<ApplicationUser> GetUser(string id)
+        {
+            try
+            {
+                var list = new List<ApplicationUser>();
+                var userData = from user in this.context.ApplicationUser
+                               where (user.Id == id)
+                               select user;
+                foreach(var data in userData)
+                {
+                    list.Add(data);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

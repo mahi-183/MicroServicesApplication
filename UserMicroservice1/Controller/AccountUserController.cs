@@ -23,7 +23,7 @@ namespace UserMicroservice.Controller
     /// <seealso cref="Microsoft.AspNetCore.Mvc.ControllerBase" />
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize]
+    [Authorize]
     public class AccountUserController : ControllerBase
     {
         /// <summary>
@@ -205,6 +205,10 @@ namespace UserMicroservice.Controller
             }
         }
 
+        /// <summary>
+        /// Send Notification From Firebase Cloud.
+        /// </summary>
+        /// <returns>return result.</returns>
         [HttpGet]
         [Route("sendMessage")]
         public IActionResult SendNotificationFromFirebaseCloud()
@@ -217,6 +221,36 @@ namespace UserMicroservice.Controller
                 if (result.Equals(null))
                 {
                     return this.Ok();
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet]
+        [Route("GetUser")]
+        public IActionResult GetUser(string id)
+        {
+            try
+            {
+                if (!id.Equals(null))
+                {
+                    IList<ApplicationUser> userDetails = new List<ApplicationUser>();
+                    userDetails = this.businessManager.GetUser(id);
+                    if (!userDetails.Equals(null))
+                    {
+                        return this.Ok(new { userDetails });
+                    }
+                    else
+                    {
+                        return this.BadRequest(new { Message = "user not Exist" });
+                    }
                 }
                 else
                 {

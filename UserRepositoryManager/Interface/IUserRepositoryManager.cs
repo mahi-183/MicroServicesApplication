@@ -7,6 +7,7 @@
 
 namespace UserRepositoryManager
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using UserModel;
@@ -57,5 +58,12 @@ namespace UserRepositoryManager
         /// </summary>
         /// <returns></returns>
         Task<string> SendNotificationFromFirebaseCloud();
+
+        /// <summary>
+        /// get user Details.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        IList<ApplicationUser> GetUser(string id);
     }
 }

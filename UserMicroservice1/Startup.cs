@@ -7,16 +7,20 @@
 namespace UserMicroservice
 {
     using System;
+    using System.Collections.Generic;
     using System.Text;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.JsonPatch.Operations;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.IdentityModel.Tokens;
+    using Swashbuckle.AspNetCore.Swagger;
+    using Swashbuckle.AspNetCore.SwaggerGen;
     using UserBusinessManager.Interface;
     using UserBusinessManager.Service;
     using UserModel;
@@ -24,6 +28,7 @@ namespace UserMicroservice
     using UserRepositoryManager.Context;
     using UserRepositoryManager.Interface;
     using UserRepositoryManager.Service;
+    using Operation = Swashbuckle.AspNetCore.Swagger.Operation;
 
     /// <summary>
     /// The start up class contains the all startup code like Database connection.
@@ -82,6 +87,7 @@ namespace UserMicroservice
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "MyFandooApp", Version = "v1", Description = "Fandoo App" });
+                c.OperationFilter<FileUploadedOperation>();
             });
             
             //// Jwt Authentication
@@ -142,6 +148,33 @@ namespace UserMicroservice
             app.UseAuthentication();
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+    }
+
+    /// <summary>
+    /// The file for Athorization header
+    /// </summary>
+    public class FileUploadedOperation : IOperationFilter
+    {
+        /// <summary>
+        /// Apply function
+        /// </summary>
+        /// <param name="swaggerDocument">swaggerDocument parameter</param>
+        /// <param name="documentFilter">documentFilter parameter </param>
+        public void Apply(Operation swaggerDocument, OperationFilterContext documentFilter)
+        {
+            if (swaggerDocument.Parameters == null)
+            {
+                swaggerDocument.Parameters = new List<IParameter>();
+            }
+
+            swaggerDocument.Parameters.Add(new NonBodyParameter
+            {
+                Name = "Authorization",
+                In = "header",
+                Type = "string",
+                Required = true
+            });
         }
     }
 }
