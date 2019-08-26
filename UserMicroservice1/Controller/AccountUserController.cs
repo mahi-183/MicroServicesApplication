@@ -209,47 +209,48 @@ namespace UserMicroservice.Controller
         /// Send Notification From Firebase Cloud.
         /// </summary>
         /// <returns>return result.</returns>
-        [HttpGet]
-        [Route("sendMessage")]
-        public IActionResult SendNotificationFromFirebaseCloud()
-        {
-            try
-            {
-                ////the businessManager Layer method called
-                var result = this.businessManager.SendNotificationFromFirebaseCloud();
+        //[HttpGet]
+        //[Route("sendMessage")]
+        //public IActionResult SendNotificationFromFirebaseCloud()
+        //{
+        //    try
+        //    {
+        //        ////the businessManager Layer method called
+        //        var result = this.businessManager.SendNotificationFromFirebaseCloud();
                 
-                if (result.Equals(null))
-                {
-                    return this.Ok();
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //        if (result.Equals(null))
+        //        {
+        //            return this.Ok();
+        //        }
+        //        else
+        //        {
+        //            throw new Exception();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
         [HttpGet]
         [Route("GetUser")]
-        public IActionResult GetUser(string id)
+        [AllowAnonymous]
+        public IList<ApplicationUser> GetUser(string userId)
         {
             try
             {
-                if (!id.Equals(null))
+                if (!userId.Equals(null))
                 {
                     IList<ApplicationUser> userDetails = new List<ApplicationUser>();
-                    userDetails = this.businessManager.GetUser(id);
+                    userDetails = this.businessManager.GetUser(userId);
                     if (!userDetails.Equals(null))
                     {
-                        return this.Ok(new { userDetails });
+                        return userDetails;
                     }
                     else
                     {
-                        return this.BadRequest(new { Message = "user not Exist" });
+                        throw new Exception("user details not fetched");
                     }
                 }
                 else

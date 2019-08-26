@@ -15,6 +15,7 @@ namespace UserMicroservice.Controllers
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using UserModel;
+    using UserModel.Enumerable;
 
     /// <summary>
     /// Values controller.
@@ -61,7 +62,7 @@ namespace UserMicroservice.Controllers
                     client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", strArr[1]);
                     
                     //// calling api from other services
-                    var response = await client.GetAsync("https://localhost:44337/api/Notes/GetNotes" + id);
+                    var response = await client.GetAsync("https://localhost:44337/api/Notes/GetNotesById?userId=" + id);
                     response.EnsureSuccessStatusCode();
                     product = await response.Content.ReadAsAsync<IList<NotesModel>>();
                 }

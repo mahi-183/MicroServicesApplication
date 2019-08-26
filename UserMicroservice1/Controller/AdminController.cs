@@ -72,6 +72,7 @@ namespace UserMicroservice.Controller
         /// <returns></returns>
         [HttpPost]
         [Route("AdminLogin")]
+        [AllowAnonymous]
         public async Task<IActionResult> AdminLogin(LoginModel loginModel)
         {
             try

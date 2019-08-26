@@ -56,7 +56,7 @@ namespace UserBusinessManager.Interface
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<string> SendNotificationFromFirebaseCloud();
+        //Task<string> SendNotificationFromFirebaseCloud();
 
         /// <summary>
         /// 

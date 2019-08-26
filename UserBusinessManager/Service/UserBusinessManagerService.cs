@@ -178,25 +178,25 @@ namespace UserBusinessManager.Service
         /// 
         /// </summary>
         /// <returns></returns>
-        public async Task<string> SendNotificationFromFirebaseCloud()
-        {
-            try
-            {
-                var result = await this.userRepositoryManager.SendNotificationFromFirebaseCloud();
-                if (!result.Equals(null))
-                {
-                    return result;
-                }
-                else
-                {
-                    throw new Exception();
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new Exception(ex.Message);
-            }
-        }
+        //public async Task<string> SendNotificationFromFirebaseCloud()
+        //{
+        //    try
+        //    {
+        //        var result = await this.userRepositoryManager.SendNotificationFromFirebaseCloud();
+        //        if (!result.Equals(null))
+        //        {
+        //            return result;
+        //        }
+        //        else
+        //        {
+        //            throw new Exception();
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new Exception(ex.Message);
+        //    }
+        //}
 
         /// <summary>
         /// Get User Details
@@ -226,7 +226,7 @@ namespace UserBusinessManager.Service
             }
             catch (Exception ex)
             {
-                throw new Exception();
+                throw new Exception(ex.Message);
             }
         }
     }

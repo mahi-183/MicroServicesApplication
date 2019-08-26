@@ -57,7 +57,7 @@ namespace UserRepositoryManager
         /// 
         /// </summary>
         /// <returns></returns>
-        Task<string> SendNotificationFromFirebaseCloud();
+        //Task<string> SendNotificationFromFirebaseCloud();
 
         /// <summary>
         /// get user Details.
