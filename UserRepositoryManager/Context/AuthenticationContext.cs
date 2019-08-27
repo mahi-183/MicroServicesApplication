@@ -33,7 +33,7 @@ namespace UserRepositoryManager.Context
         public DbSet<ApplicationUser> ApplicationUser { get; set; }
 
         /// <summary>
-        /// Get or sets the applicatio user.
+        /// Get or sets the Service.
         /// </summary>
         public DbSet<ServiceModel> Service { get; set; }
     }

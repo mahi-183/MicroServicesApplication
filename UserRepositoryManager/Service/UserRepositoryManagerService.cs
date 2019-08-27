@@ -6,19 +6,17 @@
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserRepositoryManager
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.IO;
-    using System.Linq;
-    using System.Net;
-    using System.Security.Claims;
-    using System.Text;
-    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
+    using System;
+    using System.Collections.Generic;
+    using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
+    using System.Security.Claims;
+    using System.Text;
+    using System.Threading.Tasks;
     using UserModel;
     using UserModel.Helper;
     using UserRepositoryManager.Context;
@@ -290,7 +288,7 @@ namespace UserRepositoryManager
         public IList<ApplicationUser> GetUser(string id)
         {
             try
-            {
+              {
                 var list = new List<ApplicationUser>();
                 var userData = from user in this.context.ApplicationUser
                                where (user.Id == id)

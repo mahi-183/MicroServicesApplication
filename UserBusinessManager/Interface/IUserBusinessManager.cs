@@ -56,13 +56,13 @@ namespace UserBusinessManager.Interface
         /// 
         /// </summary>
         /// <returns></returns>
-        //Task<string> SendNotificationFromFirebaseCloud();
+        ////Task<string> SendNotificationFromFirebaseCloud();
 
         /// <summary>
-        /// 
+        /// get the user details.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">user id.</param>
+        /// <returns>return the user details.</returns>
         IList<ApplicationUser> GetUser(string id);
     }
 }

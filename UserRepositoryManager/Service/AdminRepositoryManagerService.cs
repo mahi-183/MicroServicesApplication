@@ -1,31 +1,50 @@
 ﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MSMQ.cs" company="Bridgelabz">
+// <copyright file="AdminRepositoryManagerService.cs" company="Bridgelabz">
 //   Copyright © 2019 Company="BridgeLabz"
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
 namespace UserRepositoryManager.Service
 {
-    using Microsoft.AspNetCore.Identity;
-    using Microsoft.Extensions.Options;
-    using Microsoft.IdentityModel.Tokens;
     using System;
-    using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
+    using System.Linq;
     using System.Security.Claims;
     using System.Text;
     using System.Threading.Tasks;
+    using Microsoft.AspNetCore.Identity;
+    using Microsoft.Extensions.Options;
+    using Microsoft.IdentityModel.Tokens;
     using UserModel;
     using UserRepositoryManager.Context;
     using UserRepositoryManager.Interface;
-    using System.Linq;
 
+    /// <summary>
+    /// AdminRepositoryManagerService class.
+    /// </summary>
     public class AdminRepositoryManagerService : IAdminRepositoryManager
     {
+        /// <summary>
+        /// initialize the UserManager reference
+        /// </summary>
         private UserManager<ApplicationUser> userManager;
+
+        /// <summary>
+        /// initialize the AuthenticationContext reference
+        /// </summary>
         private AuthenticationContext authenticationContext;
+
+        /// <summary>
+        /// initialize the ApplicationSetting reference
+        /// </summary>
         private ApplicationSetting applicationSetting;
 
+        /// <summary>
+        /// Initialize the object references.
+        /// </summary>
+        /// <param name="authenticationContext">Initalize the AuthenticationContext</param>
+        /// <param name="userManager">Initalize the UserManager</param>
+        /// <param name="appSetting">Initalize the IOptions</param>
         public AdminRepositoryManagerService(AuthenticationContext authenticationContext, UserManager<ApplicationUser> userManager, IOptions<ApplicationSetting> appSetting)
         {
             this.applicationSetting = appSetting.Value;
@@ -34,10 +53,10 @@ namespace UserRepositoryManager.Service
         }
 
         /// <summary>
-        /// 
+        /// Admin registration.
         /// </summary>
-        /// <param name="registrationModel"></param>
-        /// <returns></returns>
+        /// <param name="registrationModel">registration model.</param>
+        /// <returns>return the result.</returns>
         public async Task<string> AdminRegistration(RegistrationModel registrationModel)
         {
             try
@@ -70,10 +89,10 @@ namespace UserRepositoryManager.Service
         }
 
         /// <summary>
-        /// 
+        /// Admin login google.
         /// </summary>
-        /// <param name="loginModel"></param>
-        /// <returns></returns>
+        /// <param name="loginModel">login model.</param>
+        /// <returns>return the token</returns>
         public async Task<string> AdminLogin(LoginModel loginModel)
         {
             try
@@ -95,6 +114,7 @@ namespace UserRepositoryManager.Service
                             Expires = DateTime.UtcNow.AddDays(5),
                             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.applicationSetting.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
                         };
+
                         var tokenHandler = new JwtSecurityTokenHandler();
                         var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                         var token = tokenHandler.WriteToken(securityToken);
@@ -121,9 +141,9 @@ namespace UserRepositoryManager.Service
         }
 
         /// <summary>
-        /// 
+        /// User statistics for showing the user is advance or basic
         /// </summary>
-        /// <returns></returns>
+        /// <returns>return the basic and advance list.</returns>
         public async Task<dynamic> UserStatistics()
         {
             try
@@ -148,7 +168,6 @@ namespace UserRepositoryManager.Service
                     throw new Exception();
                 }
             }
-
             catch (Exception ex)
             {
                 throw new Exception(ex.Message);

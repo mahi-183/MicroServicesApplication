@@ -87,16 +87,27 @@ namespace UserMicroservice.Controller
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginModel loginModel)
         {
-            //// Token comes inside the Token string variable
-            var token = await this.businessManager.Login(loginModel);
-            if (token.Equals(null))
+            ////check the login model data is not null 
+            if (!loginModel.Equals(null))
             {
-                //// Token is null return bad request
-                return this.BadRequest();
+                //// Token comes inside the Token string variable
+                var token = await this.businessManager.Login(loginModel);
+                ////check the token is null
+                if (token.Equals(null))
+                {
+                    //// Token is null return bad request
+                    return this.BadRequest();
+                }
+                else
+                {
+                    ////return the token
+                    return this.Ok(new { token });
+                }
             }
             else
             {
-                return this.Ok(new { token });
+                ////throw the exception if model data is null
+                throw new Exception("model data is invalid");
             }
         }
 
@@ -136,15 +147,27 @@ namespace UserMicroservice.Controller
         [Route("ForgetPassword")]
         public async Task<IActionResult> ForgetPassword(string email)
         {
-            //// businessManger method called
-            var result = await this.businessManager.ForgetPassword(email);
-            if (result != null)
+            if (!email.Equals(null))
             {
-                return this.Ok(new { result });
+                //// businessManger method called
+                var result = await this.businessManager.ForgetPassword(email);
+                ////check the result is not null
+                if (!result.Equals(null))
+                {
+                    ////return the succeed result when the token is send on email.
+                    return this.Ok(new { result });
+                }
+                else
+                {
+                    ////return the bad result if token is not sent on mail
+                    return this.BadRequest();
+                }
+
             }
             else
             {
-                return this.BadRequest();
+                ////the email is not valid throw the exception
+                throw new Exception("The email address is null");
             }
         }
 
@@ -156,16 +179,26 @@ namespace UserMicroservice.Controller
         [HttpPost]
         [Route("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
-        {
-            //// BusinessManager layer method callled 
-            var result = await this.businessManager.ResetPassword(resetPassword);
-            if (result != null)
+         {
+            if (!resetPassword.Equals(null))
             {
-                return this.Ok(new { result });
+                //// BusinessManager layer method callled 
+                var result = await this.businessManager.ResetPassword(resetPassword);
+                if (result != null)
+                {
+                    ////return the token when reset the password
+                    return this.Ok(new { result });
+                }
+                else
+                {
+                    ////return the bad request when the password is not reset successfuly
+                    return this.BadRequest();
+                }
             }
             else
             {
-                return this.BadRequest();
+                ////throw the exception when the model data is invalid
+                throw new Exception("Reset Model data is Invalid");
             }
         }
 
@@ -182,25 +215,32 @@ namespace UserMicroservice.Controller
         {
             try
             {
+                ////check the image file is valid or not and email address is not null
                 if (!file.Equals(null) && !email.Equals(null))
                 {
+                    ////businessManager layer method called.
                     var imageUrl = await this.businessManager.ImageUpload(file, email);
+                    ////check the cloudinary image url is not null
                     if (!imageUrl.Equals(null))
                     {
+                        ////return the cloudinary image url
                         return this.Ok(new { imageUrl });
                     }
                     else
                     {
+                        ////return the bad result if
                         return this.BadRequest(new { Message = "Image not uploaded on Cloudinary" });
                     }
                 }
                 else
                 {
+                    ////return the bad request file or email is null
                     return this.BadRequest(new { Message = "Please select valid Image file or valid email" });
                 }
             }
             catch (Exception ex)
             {
+                ////throw the exception
                 throw new Exception(ex.Message);
             }
         }

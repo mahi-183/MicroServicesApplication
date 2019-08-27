@@ -82,8 +82,9 @@ namespace UserBusinessManager.Service
                         if (!result.Equals(null))
                         {
                             ////stored token in redis
-                            redis.Set(cachekey,result);
+                            redis.Set(cachekey, result);
                         }
+
                         return result;
                     }
                     else
@@ -178,8 +179,8 @@ namespace UserBusinessManager.Service
         /// 
         /// </summary>
         /// <returns></returns>
-        //public async Task<string> SendNotificationFromFirebaseCloud()
-        //{
+        // public async Task<string> SendNotificationFromFirebaseCloud()
+        // {
         //    try
         //    {
         //        var result = await this.userRepositoryManager.SendNotificationFromFirebaseCloud();
@@ -196,13 +197,13 @@ namespace UserBusinessManager.Service
         //    {
         //        throw new Exception(ex.Message);
         //    }
-        //}
+        // }
 
         /// <summary>
-        /// Get User Details
+        /// Get User Details from notes microservice.
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">user id.</param>
+        /// <returns>return the user details.</returns>
         public IList<ApplicationUser> GetUser(string id)
         {
             try

@@ -31,7 +31,7 @@ namespace UserBusinessManager.Interface
         /// <summary>
         /// UserStatistics
         /// </summary>
-        /// <returns>return the userlist</returns>
+        /// <returns>return the UserStatistics</returns>
         Task<dynamic> UserStatistics();
     }
 }
