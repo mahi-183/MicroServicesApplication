@@ -102,7 +102,9 @@ namespace UserRepositoryManager
         /// <returns>return the token.</returns>
         public async Task<string> Login(LoginModel loginModel)
         {
+            ////get the deatails of the user by its email address.
             var user = await this.userManager.FindByNameAsync(loginModel.UserName);
+            ////check the user is not null
             if (user != null && await this.userManager.CheckPasswordAsync(user, loginModel.Password))
             {
                 if (user.UserType.Equals("User"))
@@ -128,18 +130,66 @@ namespace UserRepositoryManager
                 }
                 else
                 {
-                    var result = "This is not a user";
+                    var result = "Invalid user";
                     return result;
                 }
                 
             }
             else
             {
-                var message = "UserName and Password is incorrest";
+                var message = "UserName and Password is Incorrest";
                 return message;
             }
         }
-        
+
+        /// <summary>
+        /// login with facebook
+        /// </summary>
+        /// <param name="email">email address.</param>
+        /// <returns>return the success result.</returns>
+        public async Task<string> FacebookLogin(string email)
+        {
+            ////get the deatails of the user by its email address.
+            var user = await this.userManager.FindByNameAsync(email);
+            ////check the user is not null
+            if (user != null)
+            {
+                ////check the login user is type user or admin
+                if (user.UserType.Equals("User"))
+                {
+                    ////Authentication successful so generate jwt token 
+                    var tokenDescriptor = new SecurityTokenDescriptor
+                    {
+                        Subject = new ClaimsIdentity(new Claim[]
+                        {
+                        new Claim("UserId", user.Id.ToString())
+                        }),
+
+                        ////Token Expiry time 
+                        Expires = DateTime.UtcNow.AddDays(5),
+                        SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this.applicationSetting.JWT_Secret)), SecurityAlgorithms.HmacSha256Signature)
+                    };
+                    var tokenHandler = new JwtSecurityTokenHandler();
+                    var securityToken = tokenHandler.CreateToken(tokenDescriptor);
+                    var token = tokenHandler.WriteToken(securityToken);
+
+                    ////return token in string formate
+                    return token;
+                }
+                else
+                {
+                    var result = "Invalid user";
+                    return result;
+                }
+
+            }
+            else
+            {
+                var message = "UserName and Password is Incorrest";
+                return message;
+            }
+        }
+
         /// <summary>
         /// Forgets the password.
         /// </summary>
@@ -182,6 +232,8 @@ namespace UserRepositoryManager
                 ////generate the token
                 var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
                 var result = await this.userManager.ResetPasswordAsync(user, token, resetPassword.Password);
+                ////Email confirmation token generated
+                ////var result1 = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                 return result.ToString();
             }
         }

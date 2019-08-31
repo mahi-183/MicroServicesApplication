@@ -112,6 +112,34 @@ namespace UserMicroservice.Controller
         }
 
         /// <summary>
+        /// Facebook login.
+        /// </summary>
+        /// <param name="email">email address</param>
+        /// <returns>return the success result.</returns>
+        [HttpPost]
+        [Route("FacebookLogin")]
+        public async Task<IActionResult> FacebookLogin(string email)
+        {
+            try
+            {
+                ////in startup file need to add the secrete key and app-id = 925286397821691 secrete-key = 84fb3aa133f0cad418dd9d405ea878ea
+                var result = await this.businessManager.FacebookLogin(email);
+                if (!result.Equals(null))
+                {
+                    return this.Ok(new { result });
+                }
+                else
+                {
+                    return this.BadRequest(new { Message = "The Facebook Login not successfuly done!" });
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Users the profile.
         /// </summary>
         /// <returns>Return the user details</returns>

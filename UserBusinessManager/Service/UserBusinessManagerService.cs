@@ -102,6 +102,37 @@ namespace UserBusinessManager.Service
             }
         }
 
+        public async Task<string> FacebookLogin(string email)
+        {
+            try
+            {
+                if (!email.Equals(null))
+                {
+                    ////repository layer method called.
+                    var result = await this.userRepositoryManager.FacebookLogin(email);
+                    ////check the result is not null
+                    if (!result.Equals(null))
+                    {
+                        ////return the success result.
+                        return result;
+                    }
+                    else
+                    {
+                        ////throw the exception message if login not successuly done
+                        throw new Exception("FaceBook login not successfuly done!");
+                    }
+                }
+                else
+                {
+                    throw new Exception("email address is not valid");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
         /// <summary>
         /// Forgets the password.
         /// </summary>

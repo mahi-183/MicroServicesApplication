@@ -31,6 +31,13 @@ namespace UserBusinessManager.Interface
         Task<string> Login(LoginModel loginModel);
 
         /// <summary>
+        /// facebook login
+        /// </summary>
+        /// <param name="email">email address.</param>
+        /// <returns>return the success result.</returns>
+        Task<string> FacebookLogin(string email);
+
+        /// <summary>
         /// Forgets the password.
         /// </summary>
         /// <param name="email">The email.</param>

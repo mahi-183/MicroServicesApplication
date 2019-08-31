@@ -61,8 +61,14 @@ namespace UserMicroservice
             //// Inject AppSettings
             services.Configure<ApplicationSetting>(this.Configuration.GetSection("ApplicationSettings"));
 
+            ////Allow origin backend to run on different port
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44330"));
+            });
+
             //// Inside this we have provide database connection string
-           services.AddDbContext<UserRepositoryManager.Context.AuthenticationContext>(options =>
+            services.AddDbContext<UserRepositoryManager.Context.AuthenticationContext>(options =>
               options.UseSqlServer(this.Configuration.GetConnectionString("IdentityConnection")));
 
             services.AddDefaultIdentity<ApplicationUser>()
@@ -137,6 +143,7 @@ namespace UserMicroservice
             // .AlloAnyHeader()
             // .AllowAnyMethod()
             // );
+            app.UseCors("AllowOrigin");
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {

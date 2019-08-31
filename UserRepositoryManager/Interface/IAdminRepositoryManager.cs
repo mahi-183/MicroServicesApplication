@@ -4,7 +4,6 @@
 // </copyright>
 // <creator name="Mahesh Aurad"/>
 // --------------------------------------------------------------------------------------------------------------------
-
 namespace UserRepositoryManager.Interface
 {
     using System;
@@ -35,6 +34,4 @@ namespace UserRepositoryManager.Interface
         /// <returns></returns>
         Task<dynamic> UserStatistics();
     }
-
-
 }

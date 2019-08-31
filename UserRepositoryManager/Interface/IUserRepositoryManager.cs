@@ -18,6 +18,13 @@ namespace UserRepositoryManager
     public interface IUserRepositoryManager
     {
         /// <summary>
+        /// Registrations the specified registration model.
+        /// </summary>
+        /// <param name="registrationModel">The registration model.</param>
+        /// <returns>return the result.</returns>
+        Task<bool> Registration(RegistrationModel registrationModel);
+
+        /// <summary>
         /// Logins the specified login model.
         /// </summary>
         /// <param name="loginModel">The login model.</param>
@@ -25,11 +32,11 @@ namespace UserRepositoryManager
         Task<string> Login(LoginModel loginModel);
 
         /// <summary>
-        /// Registrations the specified registration model.
+        /// facebook login.
         /// </summary>
-        /// <param name="registrationModel">The registration model.</param>
-        /// <returns>return the result.</returns>
-        Task<bool> Registration(RegistrationModel registrationModel);
+        /// <param name="email">email address.</param>
+        /// <returns>return the success result.</returns>
+        Task<string> FacebookLogin(string email);
 
         /// <summary>
         /// Forgets the password.
@@ -54,9 +61,9 @@ namespace UserRepositoryManager
         Task<string> ImageUpload(IFormFile file, string email);
 
         /// <summary>
-        /// 
+        /// push notification from firebase cloud.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>return the success result.</returns>
         //Task<string> SendNotificationFromFirebaseCloud();
 
         /// <summary>
