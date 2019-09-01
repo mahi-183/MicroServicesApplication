@@ -64,7 +64,7 @@ namespace UserMicroservice
             ////Allow origin backend to run on different port
             services.AddCors(c =>
             {
-                c.AddPolicy("AllowOrigin", options => options.WithOrigins("https://localhost:44330"));
+                c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:4200"));
             });
 
             //// Inside this we have provide database connection string

@@ -11,6 +11,7 @@ namespace UserMicroservice.Controller
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Cors;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
@@ -24,6 +25,7 @@ namespace UserMicroservice.Controller
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [EnableCors("AllowOrigin")]
     public class AccountUserController : ControllerBase
     {
         /// <summary>
