@@ -20,10 +20,9 @@ namespace UserModel
         /// <value>
         /// The name of the user.
         /// </value>
-        [DataType(DataType.Text)]
-        [StringLength(15, MinimumLength = 3,
-               ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
-        [Required]
+        // [DataType(DataType.Text)]
+        // [StringLength(15, MinimumLength = 3,
+        //       ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
         public string UserName
         {
             get;
@@ -36,10 +35,10 @@ namespace UserModel
         /// <value>
         /// The password.
         /// </value>
-        [Required]
-        [DataType(DataType.Password)]
-        [StringLength(15, MinimumLength = 6,
-            ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
+        // [Required]
+        // [DataType(DataType.Password)]
+        // [StringLength(15, MinimumLength = 6,
+        //    ErrorMessage = "Length should be minimum 3 charecter and maximum 15")]
         public string Password
         {
             get;

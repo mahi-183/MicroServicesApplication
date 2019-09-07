@@ -71,6 +71,7 @@ namespace UserBusinessManager.Service
                 var userName = loginModel.UserName;
                 var cachekey = data + userName;
                 ////RepositoryManager Layer method called
+                
                 using (var redis = new RedisClient())
                 {
                     ////clear the redis cache
@@ -110,6 +111,7 @@ namespace UserBusinessManager.Service
                 {
                     ////repository layer method called.
                     var result = await this.userRepositoryManager.FacebookLogin(email);
+
                     ////check the result is not null
                     if (!result.Equals(null))
                     {
@@ -242,6 +244,38 @@ namespace UserBusinessManager.Service
                 if (!id.Equals(null))
                 {
                     var result = this.userRepositoryManager.GetUser(id);
+                    if (!result.Equals(null))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get user details 
+        /// </summary>
+        /// <param name="loginModel">login model</param>
+        /// <returns>return the user details</returns>
+        public IList<ApplicationUser> GetUserDetails(LoginModel loginModel)
+        {
+            try
+            {
+                if (!loginModel.Equals(null))
+                {
+                    var result = this.userRepositoryManager.GetUserDetails(loginModel);
                     if (!result.Equals(null))
                     {
                         return result;

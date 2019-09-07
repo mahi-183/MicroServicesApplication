@@ -68,14 +68,14 @@ namespace UserMicroservice.Controller
             //// business layer method called
             var result = await this.businessManager.Registration(registartionModel);
 
-            if (!result)
+            if (result)
             {
-                //// Token is null return bad request
-                return this.BadRequest();
+                return this.Ok(new { result });
             }
             else
             {
-                return this.Ok(new { result });
+                //// Token is null return bad request
+                return this.BadRequest(new { message = "registration was not successfuly done!"});
             }
         }
 
@@ -94,6 +94,10 @@ namespace UserMicroservice.Controller
             {
                 //// Token comes inside the Token string variable
                 var token = await this.businessManager.Login(loginModel);
+
+                ///User deatails
+                var userDetails = this.businessManager.GetUserDetails(loginModel);
+
                 ////check the token is null
                 if (token.Equals(null))
                 {
@@ -103,7 +107,7 @@ namespace UserMicroservice.Controller
                 else
                 {
                     ////return the token
-                    return this.Ok(new { token });
+                    return this.Ok(new { token, userDetails });
                 }
             }
             else
@@ -174,6 +178,7 @@ namespace UserMicroservice.Controller
         /// <param name="email">The email.</param>
         /// <returns>Return response from.</returns>
         [HttpPost]
+        [AllowAnonymous]
         [Route("ForgetPassword")]
         public async Task<IActionResult> ForgetPassword(string email)
         {
@@ -207,6 +212,7 @@ namespace UserMicroservice.Controller
         /// <param name="resetPassword">The reset password.</param>
         /// <returns>Return the result.</returns>
         [HttpPost]
+        [AllowAnonymous]
         [Route("ResetPassword")]
         public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
          {

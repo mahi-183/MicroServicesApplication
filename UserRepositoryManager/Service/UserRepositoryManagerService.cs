@@ -93,6 +93,7 @@ namespace UserRepositoryManager
             {
                 throw new Exception(ex.Message);
             }
+
         }
 
         /// <summary>
@@ -172,7 +173,7 @@ namespace UserRepositoryManager
                     var tokenHandler = new JwtSecurityTokenHandler();
                     var securityToken = tokenHandler.CreateToken(tokenDescriptor);
                     var token = tokenHandler.WriteToken(securityToken);
-
+                    
                     ////return token in string formate
                     return token;
                 }
@@ -201,10 +202,13 @@ namespace UserRepositoryManager
             if (emailId != null)
             {
                 MSMQ msmq = new MSMQ();
-                
-                ////string token = await _userManager.GenerateEmailConfirmationTokenAsync(Email);
-                ////await _userManager.ConfirmEmailAsync(Email, token);
-                msmq.SendEmailToQueue(email);
+                string token = await this.userManager.GenerateEmailConfirmationTokenAsync(emailId);
+                // await this.userManager.ConfirmEmailAsync(emailId, token);
+
+                var encodeToken = System.Text.Encoding.UTF32.GetBytes(token);
+
+
+                msmq.SendEmailToQueue(email, encodeToken.ToString());
                 return true.ToString();
             }
             else
@@ -222,12 +226,7 @@ namespace UserRepositoryManager
         public async Task<string> ResetPassword(ResetPassword resetPassword)
         {
             var user = await this.userManager.FindByEmailAsync(resetPassword.Email);
-            if (user == null)
-            {
-                var message = "EmailId Is Invalid";
-                return message;
-            }
-            else
+            if (!user.Equals(null))
             {
                 ////generate the token
                 var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
@@ -235,6 +234,11 @@ namespace UserRepositoryManager
                 ////Email confirmation token generated
                 ////var result1 = await this.userManager.GenerateEmailConfirmationTokenAsync(user);
                 return result.ToString();
+            }
+            else
+            {
+                var message = "EmailId Is Invalid";
+                return message;
             }
         }
 
@@ -346,6 +350,31 @@ namespace UserRepositoryManager
                                where (user.Id == id)
                                select user;
                 foreach(var data in userData)
+                {
+                    list.Add(data);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// get user details.
+        /// </summary>
+        /// <param name="loginModel">login model data.</param>
+        /// <returns>return the user details.</returns>
+        public IList<ApplicationUser> GetUserDetails(LoginModel loginModel)
+        {
+            try
+            {
+                var list = new List<ApplicationUser>();
+                var userData = from user in this.context.ApplicationUser
+                               where (user.UserName == loginModel.UserName)
+                               select user;
+                foreach (var data in userData)
                 {
                     list.Add(data);
                 }

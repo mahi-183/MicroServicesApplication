@@ -18,7 +18,7 @@ namespace UserModel
         /// Sends the email to queue.
         /// </summary>
         /// <param name="email">The email identifier.</param>
-        public void SendEmailToQueue(string email)
+        public void SendEmailToQueue(string email, string token)
         {
             ////check if queue exists, if not create it
             MessageQueue msmq = null;
@@ -37,7 +37,7 @@ namespace UserModel
 
             try
             {
-                msmq.Send(email);
+                msmq.Send(email, token);
             }
             catch (MessageQueueException ee)
             {

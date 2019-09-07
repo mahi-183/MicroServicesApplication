@@ -67,6 +67,13 @@ namespace UserMicroservice
                 c.AddPolicy("AllowOrigin", options => options.WithOrigins("http://localhost:4200"));
             });
 
+            services.AddCors(cors => cors.AddPolicy("AllowOrigin", builder =>
+            {
+                builder.AllowAnyHeader()
+                 .AllowAnyMethod()
+                 .AllowAnyOrigin();
+            }));
+
             //// Inside this we have provide database connection string
             services.AddDbContext<UserRepositoryManager.Context.AuthenticationContext>(options =>
               options.UseSqlServer(this.Configuration.GetConnectionString("IdentityConnection")));
@@ -144,6 +151,13 @@ namespace UserMicroservice
             // .AllowAnyMethod()
             // );
             app.UseCors("AllowOrigin");
+            app.UseCors(options =>
+            options.WithOrigins("http://localhost:4200")
+           .AllowAnyHeader()
+           .AllowAnyMethod()
+           .AllowAnyOrigin()
+           .AllowCredentials());
+            app.UseHttpsRedirection();
             app.UseSwagger();
             app.UseSwaggerUI(options =>
             {

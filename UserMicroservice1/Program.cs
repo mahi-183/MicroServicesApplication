@@ -20,7 +20,7 @@ namespace UserMicroservice
         /// <param name="args">The arguments.</param>
         public static void Main(string[] args)
         {
-            CreateWebHostBuilder(args).Build().Run();
+           CreateWebHostBuilder(args).Build().Run();
         }
 
         /// <summary>
