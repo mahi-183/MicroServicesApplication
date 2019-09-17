@@ -247,15 +247,15 @@ namespace UserMicroservice.Controller
         /// <exception cref="System.Exception">Throw exception.</exception>
         [HttpPost]
         [Route("ImageUpload")]
-        public async Task<IActionResult> ImageUplpoad(IFormFile file, string email)
+        public async Task<IActionResult> ImageUplpoad(IFormFile file, string userId)
         {
             try
             {
                 ////check the image file is valid or not and email address is not null
-                if (!file.Equals(null) && !email.Equals(null))
+                if (!file.Equals(null) && !userId.Equals(null))
                 {
                     ////businessManager layer method called.
-                    var imageUrl = await this.businessManager.ImageUpload(file, email);
+                    var imageUrl = await this.businessManager.ImageUpload(file, userId);
                     ////check the cloudinary image url is not null
                     if (!imageUrl.Equals(null))
                     {

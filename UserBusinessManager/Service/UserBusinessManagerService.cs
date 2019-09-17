@@ -181,13 +181,13 @@ namespace UserBusinessManager.Service
         /// <param name="file">The file name.</param>
         /// <param name="email">User Email.</param>
         /// <returns>Return the Image url.</returns>
-        public async Task<string> ImageUpload(IFormFile file, string email)
+        public async Task<string> ImageUpload(IFormFile file, string userId)
         {
             try
             {
-                if (!file.Equals(null) && !email.Equals(null))
+                if (!file.Equals(null) && !userId.Equals(null))
                 {
-                    var imageUrl = await this.userRepositoryManager.ImageUpload(file, email);
+                    var imageUrl = await this.userRepositoryManager.ImageUpload(file, userId);
                     if (!imageUrl.Equals(null))
                     {
                         return imageUrl;

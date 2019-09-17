@@ -58,7 +58,7 @@ namespace UserRepositoryManager
         /// <param name="file">The file.</param>
         /// <param name="email">The email.</param>
         /// <returns>return the image url.</returns>
-        Task<string> ImageUpload(IFormFile file, string email);
+        Task<string> ImageUpload(IFormFile file, string userId);
 
         /// <summary>
         /// push notification from firebase cloud.

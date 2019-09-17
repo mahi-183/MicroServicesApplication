@@ -206,8 +206,7 @@ namespace UserRepositoryManager
                 // await this.userManager.ConfirmEmailAsync(emailId, token);
 
                 var encodeToken = System.Text.Encoding.UTF32.GetBytes(token);
-
-
+                
                 msmq.SendEmailToQueue(email, encodeToken.ToString());
                 return true.ToString();
             }
@@ -253,7 +252,7 @@ namespace UserRepositoryManager
         /// <exception cref="System.Exception">
         /// throw exception
         /// </exception>
-        public async Task<string> ImageUpload(IFormFile file, string email)
+        public async Task<string> ImageUpload(IFormFile file, string userId)
         {
             try
             {
@@ -264,7 +263,7 @@ namespace UserRepositoryManager
                 var uploadUrl = cloudinary.UploadImageCloudinary(file);
 
                 ////Query to get the note data from database 
-                var data = this.context.ApplicationUser.Where(applicationUser => applicationUser.Email == email).FirstOrDefault();
+                var data = this.context.ApplicationUser.Where(applicationUser => applicationUser.Id == userId).FirstOrDefault();
 
                 ////update the ImageUrl to database Notes table
                 data.Image = uploadUrl;

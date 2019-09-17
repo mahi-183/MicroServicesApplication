@@ -57,7 +57,7 @@ namespace UserBusinessManager.Interface
         /// <param name="file">The file.</param>
         /// <param name="email">The email.</param>
         /// <returns>Return the Image url.</returns>
-        Task<string> ImageUpload(IFormFile file, string email);
+        Task<string> ImageUpload(IFormFile file, string userId);
 
         /// <summary>
         /// 
