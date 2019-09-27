@@ -33,5 +33,11 @@ namespace UserRepositoryManager.Interface
         /// </summary>
         /// <returns></returns>
         Task<dynamic> UserStatistics();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        IList<ApplicationUser> GetAllUSer();
     }
 }

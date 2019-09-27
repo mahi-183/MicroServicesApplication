@@ -103,6 +103,11 @@ namespace UserBusinessManager.Service
             }
         }
 
+        /// <summary>
+        /// facebook login 
+        /// </summary>
+        /// <param name="email">email address</param>
+        /// <returns>return the token</returns>
         public async Task<string> FacebookLogin(string email)
         {
             try
@@ -288,6 +293,39 @@ namespace UserBusinessManager.Service
                 else
                 {
                     throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// search the user by string 
+        /// </summary>
+        /// <param name="searchString">search string</param>
+        /// <returns>return the userList</returns>
+        public IList<ApplicationUser> SearchUser(string searchString)
+       {
+            try
+            {
+                if (!searchString.Equals(null))
+                {
+                    ///userRepository method called
+                    var result = this.userRepositoryManager.SearchUser(searchString);
+                    if (!result.Equals(null))
+                    {
+                        return result;
+                    }
+                    else
+                    {
+                        throw new Exception("result not found");
+                    }
+                }
+                else
+                {
+                    throw new Exception("search string shoud not be null");
                 }
             }
             catch (Exception ex)

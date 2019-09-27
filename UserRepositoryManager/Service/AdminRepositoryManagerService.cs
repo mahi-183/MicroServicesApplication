@@ -7,6 +7,7 @@
 namespace UserRepositoryManager.Service
 {
     using System;
+    using System.Collections.Generic;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
@@ -167,6 +168,31 @@ namespace UserRepositoryManager.Service
                 {
                     throw new Exception();
                 }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IList<ApplicationUser> GetAllUSer()
+        {
+            try
+            {
+                string userType = "admin";
+                var list = new List<ApplicationUser>();
+                var userData = from user in this.authenticationContext.ApplicationUser
+                               where (user.UserType == userType)
+                               select user;
+                foreach (var data in userData)
+                {
+                    list.Add(data);
+                }
+                return list;
             }
             catch (Exception ex)
             {

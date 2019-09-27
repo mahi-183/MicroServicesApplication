@@ -78,5 +78,12 @@ namespace UserBusinessManager.Interface
         /// <param name="loginModel">login model</param>
         /// <returns>returns user details.</returns>
         IList<ApplicationUser> GetUserDetails(LoginModel loginModel);
+
+        /// <summary>
+        /// search the user by the string
+        /// </summary>
+        /// <param name="searchString">search string</param>
+        /// <returns>return the list of user.</returns>
+        IList<ApplicationUser> SearchUser(string searchString);
     }
 }

@@ -384,5 +384,41 @@ namespace UserRepositoryManager
                 throw new Exception(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Search the user by string
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="searchString"></param>
+        /// <returns></returns>
+        public IList<ApplicationUser> SearchUser(string searchString)
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(searchString))
+                {
+                    var list = new List<ApplicationUser>();
+                     list = this.context.ApplicationUser.Where(s => s.Email.Contains(searchString)
+                                                            || s.FirstName.Contains(searchString)).ToList();
+                   
+                    if (!list.Equals(null))
+                    {
+                        return list;
+                    }
+                    else
+                    {
+                        throw new Exception();
+                    }
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 } 

@@ -339,5 +339,29 @@ namespace UserMicroservice.Controller
                 throw new Exception(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("searchUser")]
+        public IActionResult SearchUser(string searchString)
+        {
+            try
+            {
+                ///businessManager method called
+                var result = this.businessManager.SearchUser(searchString);
+                if (!result.Equals(null))
+                {
+                    return this.Ok(new { result });
+                }
+                else
+                {
+                    ///throw exception 
+                    throw new Exception("user is invalid");
+                }
+            }
+            catch(Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

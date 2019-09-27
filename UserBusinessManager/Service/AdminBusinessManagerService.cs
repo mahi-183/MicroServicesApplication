@@ -7,6 +7,7 @@
 namespace UserBusinessManager.Service
 {
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using UserBusinessManager.Interface;
     using UserModel;
@@ -117,6 +118,30 @@ namespace UserBusinessManager.Service
                 else
                 {
                     ////throw exception
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>return the user list</returns>
+        public IList<ApplicationUser> GetAllUSer()
+        {
+            try
+            {
+                var result = this.adminRepositoryManager.GetAllUSer();
+                if (!result.Equals(null))
+                {
+                    return result;
+                }
+                else
+                {
                     throw new Exception();
                 }
             }

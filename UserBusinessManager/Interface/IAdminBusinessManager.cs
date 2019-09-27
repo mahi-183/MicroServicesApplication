@@ -33,5 +33,11 @@ namespace UserBusinessManager.Interface
         /// </summary>
         /// <returns>return the UserStatistics</returns>
         Task<dynamic> UserStatistics();
+
+        /// <summary>
+        /// get the all users
+        /// </summary>
+        /// <returns>return the users.</returns>
+        IList<ApplicationUser> GetAllUSer();
     }
 }

@@ -15,17 +15,23 @@ namespace UserMicroservice.Controller
     public class AdminController : ControllerBase
     {
         /// <summary>
-        /// 
+        /// create reference of admin business manager
         /// </summary>
         private IAdminBusinessManager adminBusinessManager;
+
+        /// <summary>
+        /// create reference of user business manager
+        /// </summary>
+        private IUserBusinessManager userBusinessManager;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="adminBusinessManager"></param>
-        public AdminController(IAdminBusinessManager adminBusinessManager)
+        public AdminController(IAdminBusinessManager adminBusinessManager, IUserBusinessManager userBusinessManager)
         {
             this.adminBusinessManager = adminBusinessManager;
+            this.userBusinessManager = userBusinessManager;
         }
 
         /// <summary>
@@ -33,7 +39,6 @@ namespace UserMicroservice.Controller
         /// </summary>
         /// <param name="registrationModel"></param>
         /// <returns></returns>
-        [Authorize]
         [HttpPost]
         [Route("AdminRegistration")]
         public async Task<IActionResult> AdminRegistration(RegistrationModel registrationModel)
@@ -44,6 +49,7 @@ namespace UserMicroservice.Controller
                 {
                     ////AdminBusinessManager method called
                     var result = await this.adminBusinessManager.AdminRegistration(registrationModel);
+
                     if (!result.Equals(null))
                     {
                         return this.Ok(new { result });
@@ -80,10 +86,13 @@ namespace UserMicroservice.Controller
                 if (!loginModel.Equals(null))
                 {
                     var token = await this.adminBusinessManager.AdminLogin(loginModel);
+                    
+                    ///User deatails
+                    var adminDetails = this.userBusinessManager.GetUserDetails(loginModel);
 
-                    if (!token.Equals(null))
+                    if (!token.Equals(null) && !adminDetails.Equals(null))
                     {
-                        return this.Ok(new { token });
+                        return this.Ok(new { token , adminDetails});
                     }
                     else
                     {
@@ -126,5 +135,29 @@ namespace UserMicroservice.Controller
                 throw new Exception(ex.Message);
             }
         }
+
+        [HttpGet]
+        [Route("getUsers")]
+        [AllowAnonymous]
+        public IActionResult GetAllUSer()
+        {
+            try
+            {
+                var userDetails = this.adminBusinessManager.GetAllUSer();
+                if (!userDetails.Equals(null))
+                {
+                    return this.Ok(new { userDetails });
+                }
+                else
+                {
+                    throw new Exception("user details not fetched");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
     }
 }
