@@ -74,6 +74,12 @@ namespace UserRepositoryManager
         IList<ApplicationUser> GetUser(string id);
 
         /// <summary>
+        /// get all user list.
+        /// </summary>
+        /// <returns>return the user list</returns>
+        IList<ApplicationUser> GetUserList();
+
+        /// <summary>
         /// get user details.
         /// </summary>
         /// <param name="loginModel">login model</param>

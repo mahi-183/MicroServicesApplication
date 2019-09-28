@@ -270,6 +270,30 @@ namespace UserBusinessManager.Service
         }
 
         /// <summary>
+        /// get all user list for collaborator
+        /// </summary>
+        /// <returns>return the user list</returns>
+        public IList<ApplicationUser> GetUserList()
+        {
+            try
+            {
+                var result = this.userRepositoryManager.GetUserList();
+                if (!result.Equals(null))
+                {
+                    return result;
+                }
+                else
+                {
+                    throw new Exception();
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// Get user details 
         /// </summary>
         /// <param name="loginModel">login model</param>

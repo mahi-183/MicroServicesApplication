@@ -73,6 +73,12 @@ namespace UserBusinessManager.Interface
         IList<ApplicationUser> GetUser(string id);
 
         /// <summary>
+        /// get all user list
+        /// </summary>
+        /// <returns></returns>
+        IList<ApplicationUser> GetUserList();
+
+        /// <summary>
         /// Get user details
         /// </summary>
         /// <param name="loginModel">login model</param>

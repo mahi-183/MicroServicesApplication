@@ -341,6 +341,29 @@ namespace UserMicroservice.Controller
         }
 
         [HttpGet]
+        [Route("getUserlist")]
+        public IList<ApplicationUser> GetUserList()
+        {
+            try
+            {
+                //IList<ApplicationUser> userDetails = new List<ApplicationUser>();
+              var userDetails = this.businessManager.GetUserList();
+                if (!userDetails.Equals(null))
+                {
+                    return userDetails;
+                }
+                else
+                {
+                    throw new Exception("user details not fetched");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpGet]
         [Route("searchUser")]
         public IActionResult SearchUser(string searchString)
         {
@@ -363,5 +386,6 @@ namespace UserMicroservice.Controller
                 throw new Exception(ex.Message);
             }
         }
+
     }
 }

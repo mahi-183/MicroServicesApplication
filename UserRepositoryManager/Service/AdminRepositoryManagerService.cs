@@ -183,7 +183,7 @@ namespace UserRepositoryManager.Service
         {
             try
             {
-                string userType = "admin";
+                string userType = "user";
                 var list = new List<ApplicationUser>();
                 var userData = from user in this.authenticationContext.ApplicationUser
                                where (user.UserType == userType)

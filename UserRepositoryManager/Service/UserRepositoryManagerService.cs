@@ -361,6 +361,32 @@ namespace UserRepositoryManager
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public IList<ApplicationUser> GetUserList()
+        {
+            try
+            {
+                //string Notification = "null";
+                var list = new List<ApplicationUser>();
+                var userData = from user in this.context.ApplicationUser
+                               where (user.UserType == "User" || user.UserType == "Admin")
+                               select user;
+                //list = this.context.ApplicationUser.ToList<ApplicationUser>();
+                foreach (var data in userData)
+                {
+                    list.Add(data);
+                }
+                return list;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
         /// get user details.
         /// </summary>
         /// <param name="loginModel">login model data.</param>
