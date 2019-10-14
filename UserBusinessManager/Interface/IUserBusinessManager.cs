@@ -49,7 +49,7 @@ namespace UserBusinessManager.Interface
         /// </summary>
         /// <param name="resetPassword">The reset password.</param>
         /// <returns>Return the result.</returns>
-        Task<string> ResetPassword(ResetPassword resetPassword);
+        Task<string> ResetPassword(ResetPassword resetPassword, string token);
 
         /// <summary>
         /// Images the upload.

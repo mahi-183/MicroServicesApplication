@@ -202,13 +202,14 @@ namespace UserRepositoryManager
             if (emailId != null)
             {
                 MSMQ msmq = new MSMQ();
-                string token = await this.userManager.GenerateEmailConfirmationTokenAsync(emailId);
+                //
+                string token = await this.userManager.GeneratePasswordResetTokenAsync(emailId);
                 // await this.userManager.ConfirmEmailAsync(emailId, token);
 
-                var encodeToken = System.Text.Encoding.UTF32.GetBytes(token);
+                //var encodeToken = System.Text.Encoding.UTF32.GetBytes(token);
                 
-                msmq.SendEmailToQueue(email, encodeToken.ToString());
-                return true.ToString();
+                msmq.SendEmailToQueue(email, token);
+                return token.ToString();
             }
             else
             {
@@ -222,13 +223,13 @@ namespace UserRepositoryManager
         /// </summary>
         /// <param name="resetPassword">The reset password.</param>
         /// <returns>return the result.</returns>
-        public async Task<string> ResetPassword(ResetPassword resetPassword)
+        public async Task<string> ResetPassword(ResetPassword resetPassword,string token)
         {
             var user = await this.userManager.FindByEmailAsync(resetPassword.Email);
             if (!user.Equals(null))
             {
                 ////generate the token
-                var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
+                //var token = await this.userManager.GeneratePasswordResetTokenAsync(user);
                 var result = await this.userManager.ResetPasswordAsync(user, token, resetPassword.Password);
                 ////Email confirmation token generated
                 ////var result1 = await this.userManager.GenerateEmailConfirmationTokenAsync(user);

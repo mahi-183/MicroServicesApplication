@@ -12,7 +12,7 @@ namespace XUnitTestProject1.User
     using UserRepositoryManager;
     using Xunit;
 
-    /// <summary>
+    /// <summary>   
     /// Test all functionality of Users
     /// </summary>
     public class UserTest

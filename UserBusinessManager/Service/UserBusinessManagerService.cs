@@ -166,12 +166,12 @@ namespace UserBusinessManager.Service
         /// <param name="resetPassword">The reset password.</param>
         /// <returns>Return the result.</returns>
         /// <exception cref="Exception">Throw exception</exception>
-        public async Task<string> ResetPassword(ResetPassword resetPassword)
+        public async Task<string> ResetPassword(ResetPassword resetPassword, string token)
         {
             try
             {
                 ////RepositoryManager Layer method called
-                var result = await this.userRepositoryManager.ResetPassword(resetPassword);
+                var result = await this.userRepositoryManager.ResetPassword(resetPassword, token);
                 return result;
             }
             catch (Exception ex)

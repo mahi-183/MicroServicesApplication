@@ -214,12 +214,12 @@ namespace UserMicroservice.Controller
         [HttpPost]
         [AllowAnonymous]
         [Route("ResetPassword")]
-        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword)
+        public async Task<IActionResult> ResetPassword(ResetPassword resetPassword, string token)
          {
             if (!resetPassword.Equals(null))
             {
                 //// BusinessManager layer method callled 
-                var result = await this.businessManager.ResetPassword(resetPassword);
+                var result = await this.businessManager.ResetPassword(resetPassword, token);
                 if (result != null)
                 {
                     ////return the token when reset the password
